@@ -1,0 +1,4 @@
+= goos
+Growing Object-Oriented Software Guided by Tests - Coding along the lines of the book's example
+
+This repo follows the example developed in the book http://www.growing-object-oriented-software.com/[Growing Object-Oriented Software Guided by Tests] by Steve Freeman and Nat Pryce.
