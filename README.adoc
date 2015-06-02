@@ -1,4 +1,39 @@
 = goos
 Growing Object-Oriented Software Guided by Tests - Coding along the lines of the book's example
 
-This repo follows the example developed in the book http://www.growing-object-oriented-software.com/[Growing Object-Oriented Software Guided by Tests] by Steve Freeman and Nat Pryce.
+This project follows the example developed in the book http://www.growing-object-oriented-software.com/[Growing Object-Oriented Software Guided by Tests]
+by Steve Freeman and Nat Pryce.
+
+
+== Prerequisites
+
+A Java JDK or JRE, version 6 or higher, is required by https://gradle.org/[Gradle]. The book's example
+code doesn't need a higher version. All further java dependencies (libraries needed at compile time, at
+test time and at runtime) are managed and downloaded automatically by Gradle.
+
+However, the https://en.wikipedia.org/wiki/Openfire[Openfire] server is assumed to be "already there".
+The GitHub project https://github.com/thilomack/goos-infra[thilomack/goos-infra] downloads and installs
+an Openfire server as a docker container and configures it suitable for the book's example.
+
+
+== Generate Eclipse Project
+
+Eclipse is my IDE of choice but this project doesn't stick to it.
+
+Simply use
+
+  ./gradlew eclipse
+
+to generate Eclipse project and classpath files. If you want to use another IDE, feel free to apply
+another plugin in `build.gradle` in the project's root.
+
+
+== Build and run all Tests
+
+At the current stage of following the book, there is only one class of tests: End-to-end acceptance tests.
+
+Hence, the build doesn't have do distinguish between different kinds of tests (, yet).
+
+  ./gradlew build
+
+...compiles, builds and runs all tests. (And... fails - at the current stage, of course.)
