@@ -10,6 +10,7 @@ import com.objogate.wl.swing.gesture.GesturePerformer;
 
 public class AuctionSniperDriver extends JFrameDriver {
 
+    @SuppressWarnings("unchecked")
     public AuctionSniperDriver(int timeoutMillis) {
         super(new GesturePerformer(), //
                 JFrameDriver.topLevelFrame( //
@@ -18,6 +19,7 @@ public class AuctionSniperDriver extends JFrameDriver {
                 new AWTEventQueueProber(timeoutMillis, 100));
     }
 
+    @SuppressWarnings("unchecked")
     public void showsSniperStatus(String statusText) {
         new JLabelDriver(this, named(Main.SNIPER_STATUS_NAME)).hasText(equalTo(statusText));
     }

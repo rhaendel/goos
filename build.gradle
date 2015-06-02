@@ -19,6 +19,7 @@ dependencies {
     testCompile ('com.googlecode.windowlicker:windowlicker-swing:r268') {
         exclude module: 'hamcrest-all'
     }
+    testCompile 'org.igniterealtime.smack:smack:3.2.1'
 }
 
 jacocoTestReport {
