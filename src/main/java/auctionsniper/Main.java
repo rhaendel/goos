@@ -8,8 +8,6 @@ import auctionsniper.ui.MainWindow;
 
 public class Main {
 
-    public static final String SNIPER_STATUS_NAME = "Status:";
-
     private MainWindow ui;
 
     public Main() throws InvocationTargetException, InterruptedException {
