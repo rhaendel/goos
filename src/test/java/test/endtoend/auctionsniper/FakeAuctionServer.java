@@ -50,4 +50,14 @@ public class FakeAuctionServer {
         return itemId;
     }
 
+    public void reportPrice(int currentPrice, int increment, String winningBidderName) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
+    public void hasReceivedBid(int price, String sniperXmppId) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException();
+    }
+
 }
