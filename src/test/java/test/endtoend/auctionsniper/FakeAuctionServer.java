@@ -1,6 +1,10 @@
 package test.endtoend.auctionsniper;
 
 import static java.lang.String.format;
+import static org.hamcrest.Matchers.anything;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.is;
+import static org.junit.Assert.assertThat;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.ChatManagerListener;
@@ -38,8 +42,18 @@ public class FakeAuctionServer {
         });
     }
 
+    public void reportPrice(int price, int increment, String bidder) throws XMPPException {
+        currentChat.sendMessage(format("SQLVersion: 1.1; Event: PRICE; CurrentPrice: %d, Increment: %d; Bidder: %s:",
+                price, increment, bidder));
+    }
+
     public void hasReceivedJoinRequestFromSniper() throws InterruptedException {
-        messageListener.receivesAMessage();
+        messageListener.receivesAMessage(is(anything()));
+    }
+
+    public void hasReceivedBid(int bid, String sniperId) throws InterruptedException {
+        assertThat(currentChat.getParticipant(), equalTo(sniperId));
+        messageListener.receivesAMessage(equalTo(format("SQLVersion: 1.1; Command: BID; Price: %d;", bid)));
     }
 
     public void announceClosed() throws XMPPException {
@@ -52,16 +66,6 @@ public class FakeAuctionServer {
 
     public String getItemID() {
         return itemId;
-    }
-
-    public void reportPrice(int currentPrice, int increment, String winningBidderName) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException();
-    }
-
-    public void hasReceivedBid(int price, String sniperXmppId) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException();
     }
 
 }
