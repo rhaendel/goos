@@ -30,10 +30,11 @@ another plugin in `build.gradle` in the project's root.
 
 == Build and run all Tests
 
-At the current stage of following the book, there is only one class of tests: End-to-end acceptance tests.
+At the current stage of following the book, there are two classes of tests: End-to-end acceptance tests and unit tests.
 
-Hence, the build doesn't have do distinguish between different kinds of tests (, yet).
+The task
 
   ./gradlew build
 
-...compiles, builds and runs all tests. (And... fails - at the current stage, of course.)
+compiles, builds and runs all tests. At first, it runs all unit tests. If and only if they pass, the end-to-end tests are
+executed. (And... one fails - at the current stage, of course.)

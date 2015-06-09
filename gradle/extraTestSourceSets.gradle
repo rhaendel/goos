@@ -1,0 +1,39 @@
+sourceSets {
+    endtoendTest {
+        compileClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.endtoendTest.output
+    }
+}
+
+dependencies {
+    endtoendTestCompile configurations.testCompile
+    endtoendTestRuntime configurations.testRuntime
+}
+
+task endtoendTest(type: Test) {
+    testClassesDir = sourceSets.endtoendTest.output.classesDir
+    classpath = sourceSets.endtoendTest.runtimeClasspath
+    mustRunAfter test
+    reports.html.destination = file("$buildDir/reports/endtoendTest")
+}
+
+check.dependsOn endtoendTest
+
+//
+// eclipse plugin needs some extra configuration:
+//
+configurations{
+    projectInternalDependencies
+}
+
+dependencies {
+    projectInternalDependencies sourceSets.main.output
+}
+
+eclipse {
+    classpath {
+        plusConfigurations += [ configurations.endtoendTestCompile, configurations.endtoendTestRuntime ]
+        minusConfigurations += [ configurations.projectInternalDependencies ]
+    }
+}

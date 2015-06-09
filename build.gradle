@@ -1,5 +1,6 @@
 apply plugin: 'java'
 apply plugin: 'eclipse'
+apply from: 'gradle/extraTestSourceSets.gradle'
 
 repositories {
     jcenter()
@@ -18,3 +19,14 @@ dependencies {
     }
     testCompile 'org.igniterealtime.smack:smackx:3.2.1'
 }
+
+task ensureSourceFoldersExist() {
+    doLast {
+        def allSourceDirs = sourceSets.collect{ it.allSource.srcDirs }.flatten()
+        allSourceDirs.findAll{ !it.exists() }.each { missingSrcDir ->
+            println "creating $missingSrcDir"
+            missingSrcDir.mkdirs()
+        }
+    }
+}
+eclipseClasspath.dependsOn ensureSourceFoldersExist
