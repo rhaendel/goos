@@ -43,3 +43,10 @@ The task
 
 compiles, builds and runs all tests. At first, it runs all unit tests. If and only if they pass, the end-to-end tests are
 executed. (And... one fails - at the current stage, of course.)
+
+
+== Code Coverage
+
+For calculating code coverage of all unit tests, using http://www.eclemma.org/jacoco/[JaCoCo], run:
+
+  ./gradlew test jacocoTestReport
