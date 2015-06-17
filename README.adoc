@@ -1,4 +1,9 @@
 = goos
+:project-full-path: rhaendel/goos
+:github-branch: master
+
+image:http://img.shields.io/travis/{project-full-path}/{github-branch}.svg["Build Status", link="https://travis-ci.org/{project-full-path}"]
+
 Growing Object-Oriented Software Guided by Tests - Coding along the lines of the book's example
 
 This project follows the example developed in the book http://www.growing-object-oriented-software.com/[Growing Object-Oriented Software Guided by Tests]
