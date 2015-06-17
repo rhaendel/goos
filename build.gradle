@@ -1,6 +1,18 @@
+
+buildscript {
+    repositories {
+        jcenter()
+    }
+
+    dependencies {
+        classpath 'org.kt3k.gradle.plugin:coveralls-gradle-plugin:2.3.1'
+    }
+}
+
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
+apply plugin: 'com.github.kt3k.coveralls'
 apply from: 'gradle/extraTestSourceSets.gradle'
 
 repositories {
@@ -9,6 +21,11 @@ repositories {
 
 task wrapper(type: Wrapper) {
     gradleVersion = '2.4'
+}
+
+tasks.coveralls {
+  dependsOn 'test'
+  onlyIf { isCI }
 }
 
 dependencies {
