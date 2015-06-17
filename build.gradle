@@ -1,4 +1,7 @@
-apply plugin: 'java'
+plugins {
+    id 'java'
+    id 'jacoco'
+}
 
 repositories {
     jcenter()
@@ -7,4 +10,17 @@ repositories {
 dependencies {
     compile 'org.slf4j:slf4j-api:1.7.12'
     testCompile 'junit:junit:4.12'
+}
+
+jacocoTestReport {
+    group = 'Reporting'
+    description = 'Generate Jacoco coverage reports after running tests.'
+    additionalSourceDirs = project.files(sourceSets.main.allSource.srcDirs)
+    sourceDirectories = project.files(sourceSets.main.allSource.srcDirs)
+    classDirectories =  project.files(sourceSets.main.output)
+    reports {
+        xml.enabled = true
+        csv.enabled = false
+        html.enabled = true
+    }
 }

@@ -1,6 +1,6 @@
 language: java
 
-script: ./gradlew clean test
+script: ./gradlew clean test jacocoTestReport
 
 jdk:
   - oraclejdk8
