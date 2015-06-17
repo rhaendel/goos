@@ -25,7 +25,6 @@ task wrapper(type: Wrapper) {
 
 tasks.coveralls {
   dependsOn 'test'
-  onlyIf { isCI }
 }
 
 dependencies {
