@@ -1,4 +1,10 @@
 = goos
+:project-full-path: rhaendel/goos
+:github-branch: 2018
+
+image:http://img.shields.io/travis/{project-full-path}/{github-branch}.svg["Build Status", link="https://travis-ci.org/{project-full-path}"]
+image:http://img.shields.io/coveralls/{project-full-path}/{github-branch}.svg["Coverage Status", link="https://coveralls.io/r/{project-full-path}"]
+
 Growing Object-Oriented Software Guided by Tests - Coding along the lines of the book's example
 
 This project follows the example developed in the book http://www.growing-object-oriented-software.com/[Growing Object-Oriented Software Guided by Tests]
@@ -16,16 +22,9 @@ The GitHub project https://github.com/thilomack/goos-infra[thilomack/goos-infra]
 an Openfire server as a docker container and configures it suitable for the book's example.
 
 
-== Generate Eclipse Project
+== Import to your IDE
 
-Eclipse is my IDE of choice but this project doesn't stick to it.
-
-Simply use
-
-  ./gradlew eclipse
-
-to generate Eclipse project and classpath files. If you want to use another IDE, feel free to apply
-another plugin in `build.gradle` in the project's root.
+Eclipse and IntelliJ IDEA are able to import Gradle projects without any additional plugin applied to the Gradle build file.
 
 
 == Build and run all Tests

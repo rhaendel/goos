@@ -1,10 +1,16 @@
 plugins {
     id 'java'
     id 'jacoco'
+    id 'com.github.kt3k.coveralls' version '2.6.3'
 }
 
 repositories {
     jcenter()
+}
+
+tasks.coveralls {
+  dependsOn 'test'
+  onlyIf { isCI }
 }
 
 dependencies {
