@@ -9,8 +9,8 @@ repositories {
 }
 
 tasks.coveralls {
-  dependsOn 'test'
   onlyIf { isCI }
+  dependsOn 'build'
 }
 
 dependencies {
