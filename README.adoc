@@ -34,16 +34,25 @@ to generate Eclipse project and classpath files. If you want to use another IDE,
 another plugin in `build.gradle` in the project's root.
 
 
-== Build and run all Tests
+== Build and run all (but one) Tests
 
-At the current stage of following the book, there are two classes of tests: End-to-end acceptance tests and unit tests.
+At the current stage of following the book, there are two kinds of tests: End-to-end acceptance tests and unit tests.
 
 The task
 
   ./gradlew build
 
 compiles, builds and runs all tests. At first, it runs all unit tests. If and only if they pass, the end-to-end tests are
-executed. (And... one fails - at the current stage, of course.)
+executed.
+
+=== The failing one
+
+The one failing end-to-end test that drives development (-> ATDD, Acceptance Test Driven Development) can be
+run using:
+
+  ./gradlew endtoendFailingTest
+
+It is excluded from continuous integration builds.
 
 
 == Code Coverage

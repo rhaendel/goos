@@ -4,11 +4,18 @@ sourceSets {
         runtimeClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.endtoendTest.output
     }
+    endtoendFailingTest {
+        compileClasspath += sourceSets.endtoendTest.output
+        runtimeClasspath += sourceSets.endtoendTest.output
+        runtimeClasspath += sourceSets.endtoendFailingTest.output
+    }
 }
 
 dependencies {
     endtoendTestCompile configurations.testCompile
     endtoendTestRuntime configurations.testRuntime
+    endtoendFailingTestCompile configurations.endtoendTestCompile
+    endtoendFailingTestRuntime configurations.endtoendTestRuntime
 }
 
 task endtoendTest(type: Test) {
@@ -18,7 +25,15 @@ task endtoendTest(type: Test) {
     reports.html.destination = file("$buildDir/reports/endtoendTest")
 }
 
+task endtoendFailingTest(type: Test) {
+    testClassesDir = sourceSets.endtoendFailingTest.output.classesDir
+    classpath = sourceSets.endtoendFailingTest.runtimeClasspath
+    mustRunAfter endtoendTest
+    reports.html.destination = file("$buildDir/reports/endtoendFailingTest")
+}
+
 check.dependsOn endtoendTest
+check.dependsOn endtoendFailingTestClasses
 
 //
 // eclipse plugin needs some extra configuration:
@@ -33,7 +48,7 @@ dependencies {
 
 eclipse {
     classpath {
-        plusConfigurations += [ configurations.endtoendTestCompile, configurations.endtoendTestRuntime ]
+        plusConfigurations += [ configurations.endtoendFailingTestCompile, configurations.endtoendFailingTestRuntime ]
         minusConfigurations += [ configurations.projectInternalDependencies ]
     }
 }
