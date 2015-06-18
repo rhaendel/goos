@@ -12,3 +12,6 @@ gradle-app.setting
 /.project
 /.settings/
 /bin/
+
+# Ignore an eventually downloaded openfire server
+server/
