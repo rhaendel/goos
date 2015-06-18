@@ -24,7 +24,7 @@ task wrapper(type: Wrapper) {
 }
 
 tasks.coveralls {
-  dependsOn 'test'
+  dependsOn 'build'
 }
 
 dependencies {

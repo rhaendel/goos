@@ -3,7 +3,7 @@ language: java
 before_install:
   - ./setup_openfire.sh
 
-script: ./gradlew clean test
+script: ./gradlew clean build
 
 jdk:
   - oraclejdk8
