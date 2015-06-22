@@ -6,6 +6,7 @@ sourceSets {
     }
     endtoendFailingTest {
         compileClasspath += sourceSets.endtoendTest.output
+        runtimeClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.endtoendTest.output
         runtimeClasspath += sourceSets.endtoendFailingTest.output
     }

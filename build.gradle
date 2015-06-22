@@ -63,3 +63,17 @@ jacocoTestReport {
         html.enabled = true
     }
 }
+
+task jacocoFailingTestReport(type: JacocoReport) {
+    group = 'Reporting'
+    description = 'Generate Jacoco coverage reports for the failing end-to-end test.'
+    additionalSourceDirs = project.files(sourceSets.main.allSource.srcDirs)
+    sourceDirectories = project.files(sourceSets.main.allSource.srcDirs)
+    classDirectories =  project.files(sourceSets.main.output)
+    executionData = files("${buildDir}/jacoco/endtoendFailingTest.exec")
+    reports {
+        xml.enabled = true
+        csv.enabled = false
+        html.enabled = true
+    }
+}
