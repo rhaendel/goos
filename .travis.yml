@@ -9,6 +9,7 @@ script: ./gradlew clean build
 
 jdk:
   - oraclejdk8
+  - oraclejdk7
 
 env:
   - TERM=dumb

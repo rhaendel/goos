@@ -13,13 +13,18 @@ by Steve Freeman and Nat Pryce.
 
 == Prerequisites
 
-A Java JDK or JRE, version 6 or higher, is required by https://gradle.org/[Gradle]. The book's example
-code doesn't need a higher version. All further java dependencies (libraries needed at compile time, at
-test time and at runtime) are managed and downloaded automatically by Gradle.
+The book's example code doesn't need a higher version than Java 6. But sometimes I make use of Java 7 features.
+Hence, a Java JDK or JRE version 7 is needed. All further java dependencies (libraries needed at compile time, at
+test time and at runtime) are managed and downloaded automatically by https://gradle.org/[Gradle].
 
-However, the https://en.wikipedia.org/wiki/Openfire[Openfire] server is assumed to be "already there".
+The https://en.wikipedia.org/wiki/Openfire[Openfire] server is assumed to be "already there".
 The GitHub project https://github.com/thilomack/goos-infra[thilomack/goos-infra] downloads and installs
 an Openfire server as a docker container and configures it suitable for the book's example.
+
+On Linux machines, only:
+
+For running all tests on a continuous integration server, `setup_openfire.sh` downloads, installs and
+configures an Openfire server locally. If a server is already there, the shell script just starts it.
 
 
 == Import to your IDE
