@@ -2,8 +2,9 @@
 :project-full-path: rhaendel/goos
 :github-branch: master
 
-image:http://img.shields.io/travis/{project-full-path}/{github-branch}.svg["Build Status", link="https://travis-ci.org/{project-full-path}"]
-image:http://img.shields.io/coveralls/{project-full-path}/{github-branch}.svg["Coverage Status", link="https://coveralls.io/r/{project-full-path}"]
+image:https://travis-ci.org/{project-full-path}.svg?branch={github-branch}["Build Status", link="https://travis-ci.org/{project-full-path}"]
+image:https://coveralls.io/repos/{project-full-path}/badge.svg?branch={github-branch}&service=github["Coverage Status", link="https://coveralls.io/github/{project-full-path}?branch={github-branch}"]
+
 
 Growing Object-Oriented Software Guided by Tests - Coding along the lines of the book's example
 
