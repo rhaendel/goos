@@ -1,11 +1,10 @@
 package test.auctionsniper;
 
 import org.jmock.Expectations;
-import org.jmock.Mockery;
 import org.jmock.States;
-import org.jmock.integration.junit4.JMock;
+import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.junit.Rule;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 
 import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener.PriceSource;
@@ -13,13 +12,13 @@ import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
 import auctionsniper.SniperState;
 
-@SuppressWarnings("deprecation")
-@RunWith(JMock.class)
 public class AuctionSniperTest {
 
     protected static final String ITEM_ID = "item-54321";
 
-    private final Mockery context = new Mockery();
+    @Rule
+    public final JUnitRuleMockery context = new JUnitRuleMockery();
+
     private final SniperListener sniperListener = context.mock(SniperListener.class);
     private final Auction auction = context.mock(Auction.class);
     private final AuctionSniper sniper = new AuctionSniper(auction, sniperListener, ITEM_ID);
