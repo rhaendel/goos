@@ -5,13 +5,13 @@ import org.apache.commons.lang.builder.HashCodeBuilder;
 import org.apache.commons.lang.builder.ToStringBuilder;
 import org.apache.commons.lang.builder.ToStringStyle;
 
-public class SniperState {
+public class SniperSnapshot {
 
     public final String itemId;
     public final int lastPrice;
     public final int lastBid;
 
-    public SniperState(String itemId, int lastPrice, int lastBid) {
+    public SniperSnapshot(String itemId, int lastPrice, int lastBid) {
         this.itemId = itemId;
         this.lastPrice = lastPrice;
         this.lastBid = lastBid;
@@ -24,8 +24,8 @@ public class SniperState {
 
     @Override
     public boolean equals(final Object obj) {
-        if (obj instanceof SniperState) {
-            final SniperState other = (SniperState) obj;
+        if (obj instanceof SniperSnapshot) {
+            final SniperSnapshot other = (SniperSnapshot) obj;
             return new EqualsBuilder().append(itemId, other.itemId).append(lastPrice, other.lastPrice).append(lastBid, other.lastBid)
                     .isEquals();
         }

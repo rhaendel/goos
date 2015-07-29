@@ -4,16 +4,16 @@ import static auctionsniper.ui.MainWindow.STATUS_JOINING;
 
 import javax.swing.table.AbstractTableModel;
 
-import auctionsniper.SniperState;
+import auctionsniper.SniperSnapshot;
 
 public class SnipersTableModel extends AbstractTableModel {
 
     private static final long serialVersionUID = 1L;
 
-    private static final SniperState STARTING_UP = new SniperState("", 0, 0);
+    private static final SniperSnapshot STARTING_UP = new SniperSnapshot("", 0, 0);
 
     private String statusText = STATUS_JOINING;
-    private SniperState sniperState = STARTING_UP;
+    private SniperSnapshot sniperSnapshot = STARTING_UP;
 
     @Override
     public int getColumnCount() {
@@ -29,12 +29,12 @@ public class SnipersTableModel extends AbstractTableModel {
     public Object getValueAt(int rowIndex, int columnIndex) {
         switch (Column.at(columnIndex)) {
         case ITEM_IDENTIFIER:
-            return sniperState.itemId;
+            return sniperSnapshot.itemId;
         case LAST_PRICE:
-            return sniperState.lastPrice;
+            return sniperSnapshot.lastPrice;
         case LAST_BID:
-            return sniperState.lastBid;
-        case SNIPER_STATUS:
+            return sniperSnapshot.lastBid;
+        case SNIPER_STATE:
             return statusText;
         default:
             throw new IllegalArgumentException("No column at " + columnIndex);
@@ -46,8 +46,8 @@ public class SnipersTableModel extends AbstractTableModel {
         fireTableRowsUpdated(0, 0);
     }
 
-    public void sniperStatusChanged(SniperState newSniperState, String newStatusText) {
-        this.sniperState = newSniperState;
+    public void sniperStatusChanged(SniperSnapshot newSniperSnapshot, String newStatusText) {
+        this.sniperSnapshot = newSniperSnapshot;
         this.statusText = newStatusText;
         fireTableRowsUpdated(0, 0);
     }
@@ -56,7 +56,7 @@ public class SnipersTableModel extends AbstractTableModel {
         ITEM_IDENTIFIER,
         LAST_PRICE,
         LAST_BID,
-        SNIPER_STATUS;
+        SNIPER_STATE;
 
         public static Column at(int offset) {
             return values()[offset];

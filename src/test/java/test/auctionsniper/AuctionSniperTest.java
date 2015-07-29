@@ -10,7 +10,7 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener.PriceSource;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
-import auctionsniper.SniperState;
+import auctionsniper.SniperSnapshot;
 
 public class AuctionSniperTest {
 
@@ -40,7 +40,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 ignoring(auction);
-                allowing(sniperListener).sniperBidding(with(any(SniperState.class)));
+                allowing(sniperListener).sniperBidding(with(any(SniperSnapshot.class)));
                 then(sniperState.is("bidding"));
 
                 atLeast(1).of(sniperListener).sniperLost();
@@ -61,7 +61,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 oneOf(auction).bid(bid);
-                atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, price, bid));
+                atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, price, bid));
             }
         });
 
@@ -87,7 +87,7 @@ public class AuctionSniperTest {
                 atLeast(1).of(sniperListener).sniperWinning();
                 then(sniperState.is("winning"));
 
-                atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, 168, 213));
+                atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, 168, 213));
                 when(sniperState.is("winning"));
                 then(sniperState.is("bidding"));
 
@@ -106,7 +106,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 ignoring(auction);
-                atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, 123, 168));
+                atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, 123, 168));
                 then(sniperState.is("bidding"));
 
                 atLeast(1).of(sniperListener).sniperWinning();
