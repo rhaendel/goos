@@ -1,5 +1,10 @@
 package test.auctionsniper;
 
+import static auctionsniper.SniperState.BIDDING;
+import static org.hamcrest.Matchers.equalTo;
+
+import org.hamcrest.FeatureMatcher;
+import org.hamcrest.Matcher;
 import org.jmock.Expectations;
 import org.jmock.States;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -11,6 +16,7 @@ import auctionsniper.AuctionEventListener.PriceSource;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
 import auctionsniper.SniperSnapshot;
+import auctionsniper.SniperState;
 
 public class AuctionSniperTest {
 
@@ -40,7 +46,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 ignoring(auction);
-                allowing(sniperListener).sniperBidding(with(any(SniperSnapshot.class)));
+                allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
                 then(sniperState.is("bidding"));
 
                 atLeast(1).of(sniperListener).sniperLost();
@@ -61,7 +67,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 oneOf(auction).bid(bid);
-                atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, price, bid));
+                atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, price, bid, BIDDING));
             }
         });
 
@@ -87,7 +93,7 @@ public class AuctionSniperTest {
                 atLeast(1).of(sniperListener).sniperWinning();
                 then(sniperState.is("winning"));
 
-                atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, 168, 213));
+                atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 168, 213, BIDDING));
                 when(sniperState.is("winning"));
                 then(sniperState.is("bidding"));
 
@@ -106,7 +112,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 ignoring(auction);
-                atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, 123, 168));
+                atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 123, 168, BIDDING));
                 then(sniperState.is("bidding"));
 
                 atLeast(1).of(sniperListener).sniperWinning();
@@ -139,4 +145,14 @@ public class AuctionSniperTest {
         sniper.currentPrice(123, 45, PriceSource.FromSniper);
         sniper.auctionClosed();
     }
+
+    private Matcher<SniperSnapshot> aSniperThatIs(final SniperState state) {
+        return new FeatureMatcher<SniperSnapshot, SniperState>(equalTo(state), "sniper that is ", "was") {
+            @Override
+            protected SniperState featureValueOf(SniperSnapshot actual) {
+                return actual.state;
+            }
+        };
+    }
+
 }
