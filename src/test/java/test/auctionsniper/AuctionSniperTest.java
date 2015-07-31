@@ -1,6 +1,7 @@
 package test.auctionsniper;
 
 import static auctionsniper.SniperState.BIDDING;
+import static auctionsniper.SniperState.WINNING;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.hamcrest.FeatureMatcher;
@@ -78,19 +79,26 @@ public class AuctionSniperTest {
     public void reportsIsWinningWhenCurrentPriceComesFromSniper() {
         context.checking(new Expectations() {
             {
-                atLeast(1).of(sniperListener).sniperWinning();
+                ignoring(auction);
+                allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(BIDDING)));
+                then(sniperState.is("bidding"));
+
+                atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 135, 135, WINNING));
+                when(sniperState.is("bidding"));
             }
         });
 
-        sniper.currentPrice(123, 45, PriceSource.FromSniper);
+        sniper.currentPrice(123, 12, PriceSource.FromOtherBidder);
+        sniper.currentPrice(135, 45, PriceSource.FromSniper);
     }
 
     @Test
+    // An Exercise for the Reader
     public void reportsIsBiddingAndLostAfterWinningButAPriceComesFromOtherBidder() {
         context.checking(new Expectations() {
             {
                 ignoring(auction);
-                atLeast(1).of(sniperListener).sniperWinning();
+                atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 123, 0, WINNING));
                 then(sniperState.is("winning"));
 
                 atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 168, 213, BIDDING));
@@ -108,6 +116,7 @@ public class AuctionSniperTest {
     }
 
     @Test
+    // An Exercise for the Reader
     public void reportsIsWinningAndWonAfterBiddingHigherThanOtherBidder() {
         context.checking(new Expectations() {
             {
@@ -115,7 +124,7 @@ public class AuctionSniperTest {
                 atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 123, 168, BIDDING));
                 then(sniperState.is("bidding"));
 
-                atLeast(1).of(sniperListener).sniperWinning();
+                atLeast(1).of(sniperListener).sniperStateChanged(new SniperSnapshot(ITEM_ID, 168, 168, WINNING));
                 when(sniperState.is("bidding"));
                 then(sniperState.is("winning"));
 
@@ -134,7 +143,7 @@ public class AuctionSniperTest {
         context.checking(new Expectations() {
             {
                 ignoring(auction);
-                allowing(sniperListener).sniperWinning();
+                allowing(sniperListener).sniperStateChanged(with(aSniperThatIs(WINNING)));
                 then(sniperState.is("winning"));
 
                 atLeast(1).of(sniperListener).sniperWon();
