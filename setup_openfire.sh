@@ -32,7 +32,7 @@ download_and_unpack()
   cd "$server_dir"
   wget "http://www.igniterealtime.org/downloadServlet?filename=openfire/$openfire_tgz" -O "$openfire_tgz"
   tar xzf "$openfire_tgz"
-  wget "https://raw.githubusercontent.com/rhaendel/goos-infra/master/src/openfire.xml" -O "$openfire_dir/conf/openfire.xml"
+  curl -o "$openfire_dir/conf/openfire.xml" "https://raw.githubusercontent.com/rhaendel/goos-infra/master/src/openfire.xml"
 }
 
 configure_openfire()
