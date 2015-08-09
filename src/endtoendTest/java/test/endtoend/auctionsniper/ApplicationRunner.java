@@ -2,7 +2,6 @@ package test.endtoend.auctionsniper;
 
 import static auctionsniper.ui.SnipersTableModel.textFor;
 import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
-
 import auctionsniper.Main;
 import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
@@ -34,7 +33,7 @@ public class ApplicationRunner {
         driver.hasTitle(MainWindow.APPLICATION_TITLE);
         driver.hasColumnTitles();
         for (FakeAuctionServer auction : auctions) {
-            driver.showsSniperStatus(auction.getItemID(), 0, 0, textFor(SniperState.JOINING));
+            // driver.showsSniperStatus(auction.getItemID(), 0, 0, textFor(SniperState.JOINING));
         }
     }
 
