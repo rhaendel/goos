@@ -19,7 +19,7 @@ public class MainWindow extends JFrame {
     private final SnipersTableModel snipers;
 
     public MainWindow(SnipersTableModel snipers) {
-        super("Auction Sniper");
+        super(APPLICATION_TITLE);
         this.snipers = snipers;
         setName(MAIN_WINDOW_NAME);
         fillContentPane(makeSnipersTable());
