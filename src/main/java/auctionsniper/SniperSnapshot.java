@@ -21,7 +21,7 @@ public class SniperSnapshot {
 
     @Override
     public int hashCode() {
-        return new HashCodeBuilder().append(itemId).append(lastPrice).append(lastBid).toHashCode();
+        return new HashCodeBuilder().append(itemId).append(lastPrice).append(lastBid).append(state).toHashCode();
     }
 
     @Override
@@ -29,7 +29,7 @@ public class SniperSnapshot {
         if (obj instanceof SniperSnapshot) {
             final SniperSnapshot other = (SniperSnapshot) obj;
             return new EqualsBuilder().append(itemId, other.itemId).append(lastPrice, other.lastPrice).append(lastBid, other.lastBid)
-                    .isEquals();
+                    .append(state, other.state).isEquals();
         }
 
         return false;
@@ -37,7 +37,8 @@ public class SniperSnapshot {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append(itemId).append(lastPrice).append(lastBid).toString();
+        return new ToStringBuilder(this, ToStringStyle.SHORT_PREFIX_STYLE).append(itemId).append(lastPrice).append(lastBid).append(state)
+                .toString();
     }
 
     public SniperSnapshot bidding(int newLastPrice, int newLastBid) {
