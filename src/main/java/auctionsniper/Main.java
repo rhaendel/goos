@@ -64,7 +64,7 @@ public class Main {
         auction.join();
     }
 
-    private void safelyAddItemToModel(String itemId) throws Exception {
+    private void safelyAddItemToModel(final String itemId) throws Exception {
         SwingUtilities.invokeAndWait(new Runnable() {
 
             @Override
