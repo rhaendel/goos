@@ -1,7 +1,14 @@
 sourceSets {
-    endtoendTest {
+    integrationTest {
         compileClasspath += sourceSets.main.output
         runtimeClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.integrationTest.output
+    }
+    endtoendTest {
+        compileClasspath += sourceSets.main.output
+        compileClasspath += sourceSets.integrationTest.output
+        runtimeClasspath += sourceSets.main.output
+        runtimeClasspath += sourceSets.integrationTest.output
         runtimeClasspath += sourceSets.endtoendTest.output
     }
     endtoendFailingTest {
@@ -13,16 +20,25 @@ sourceSets {
 }
 
 dependencies {
-    endtoendTestCompile configurations.testCompile
-    endtoendTestRuntime configurations.testRuntime
+    integrationTestCompile configurations.testCompile
+    integrationTestRuntime configurations.testRuntime
+    endtoendTestCompile configurations.integrationTestCompile
+    endtoendTestRuntime configurations.integrationTestRuntime
     endtoendFailingTestCompile configurations.endtoendTestCompile
     endtoendFailingTestRuntime configurations.endtoendTestRuntime
+}
+
+task integrationTest(type: Test) {
+    testClassesDir = sourceSets.integrationTest.output.classesDir
+    classpath = sourceSets.integrationTest.runtimeClasspath
+    mustRunAfter test
+    reports.html.destination = file("$buildDir/reports/integrationTest")
 }
 
 task endtoendTest(type: Test) {
     testClassesDir = sourceSets.endtoendTest.output.classesDir
     classpath = sourceSets.endtoendTest.runtimeClasspath
-    mustRunAfter test
+    mustRunAfter integrationTest
     reports.html.destination = file("$buildDir/reports/endtoendTest")
 }
 
@@ -33,6 +49,7 @@ task endtoendFailingTest(type: Test) {
     reports.html.destination = file("$buildDir/reports/endtoendFailingTest")
 }
 
+check.dependsOn integrationTest
 check.dependsOn endtoendTest
 check.dependsOn endtoendFailingTestClasses
 

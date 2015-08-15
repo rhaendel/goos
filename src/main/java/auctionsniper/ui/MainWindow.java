@@ -3,6 +3,8 @@ package auctionsniper.ui;
 import java.awt.BorderLayout;
 import java.awt.Container;
 import java.awt.FlowLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -10,6 +12,9 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+
+import auctionsniper.UserRequestListener;
+import auctionsniper.util.Announcer;
 
 public class MainWindow extends JFrame {
 
@@ -21,6 +26,8 @@ public class MainWindow extends JFrame {
     public static final String SNIPERS_TABLE_NAME = "Snipers";
     public static final String NEW_ITEM_ID_NAME = "New Item ID";
     public static final String JOIN_BUTTON_NAME = "Join Auction";
+
+    private final Announcer<UserRequestListener> userRequests = Announcer.to(UserRequestListener.class);
 
     public MainWindow(SnipersTableModel snipers) {
         super(APPLICATION_TITLE);
@@ -40,6 +47,12 @@ public class MainWindow extends JFrame {
 
         JButton joinAuctionButton = new JButton("Join Auction");
         joinAuctionButton.setName(JOIN_BUTTON_NAME);
+        joinAuctionButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                userRequests.announce().joinAuction(itemIdField.getText());
+            }
+        });
         controls.add(joinAuctionButton);
 
         return controls;
@@ -57,6 +70,10 @@ public class MainWindow extends JFrame {
         final JTable snipersTable = new JTable(snipers);
         snipersTable.setName(SNIPERS_TABLE_NAME);
         return snipersTable;
+    }
+
+    public void addUserRequestListener(UserRequestListener userRequestListener) {
+        userRequests.addListener(userRequestListener);
     }
 
 }

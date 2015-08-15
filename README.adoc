@@ -48,8 +48,23 @@ The task
 
   ./gradlew build
 
-compiles, builds and runs all tests. At first, it runs all unit tests. If and only if they pass, the end-to-end tests are
-executed.
+compiles, builds and runs all tests. At first, it runs all unit tests. If and only if they pass, the integration tests run.
+If in turn the latter pass, the end-to-end tests are executed.
+
+== Run a special Group of Tests
+
+Execute just the unit tests:
+
+  ./gradlew test
+
+Execute all integration tests:
+
+  ./gradlew integrationTest
+
+Execute all end-to-end tests:
+
+  ./gradlew endtoendTest
+
 
 === The failing one
 

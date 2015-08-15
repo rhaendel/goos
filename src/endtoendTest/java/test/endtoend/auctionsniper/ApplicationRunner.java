@@ -6,6 +6,7 @@ import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
 import auctionsniper.Main;
 import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
+import test.integration.auctionsniper.AuctionSniperDriver;
 
 public class ApplicationRunner {
 

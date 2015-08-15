@@ -1,4 +1,4 @@
-package test.endtoend.auctionsniper;
+package test.integration.auctionsniper;
 
 import static com.objogate.wl.swing.matcher.IterableComponentsMatcher.matching;
 import static com.objogate.wl.swing.matcher.JLabelTextMatcher.withLabelText;
