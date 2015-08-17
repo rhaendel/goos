@@ -17,6 +17,9 @@ apply from: 'gradle/extraTestSourceSets.gradle'
 
 repositories {
     jcenter()
+    maven {
+        url "https://ibuzz-csd.googlecode.com/hg/maven-repository"
+    }
 }
 
 task wrapper(type: Wrapper) {
@@ -32,7 +35,8 @@ dependencies {
     compile 'commons-lang:commons-lang:2.6'
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
-    testCompile ('com.googlecode.windowlicker:windowlicker-swing:r268') {
+    testCompile 'com.objogate.wl:windowlicker-core-DEV:1.0'
+    testCompile ('com.objogate.wl:windowlicker-swing-DEV:1.0') {
         exclude module: 'hamcrest-all'
     }
     testCompile 'org.igniterealtime.smack:smackx:3.2.1'
