@@ -5,7 +5,7 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
   - ./setup_openfire.sh
 
-script: ./gradlew clean build
+script: ./gradlew clean build --info
 
 jdk:
   - oraclejdk8
@@ -15,7 +15,7 @@ env:
   - TERM=dumb
 
 after_success:
-  - ./gradlew jacocoTestReport coveralls
+  - ./gradlew jacocoTestReport coveralls --info
 
 after_script:
   - kill $(cat server/openfire.pid)
