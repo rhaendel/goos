@@ -61,6 +61,7 @@ jacocoTestReport {
     additionalSourceDirs = project.files(sourceSets.main.allSource.srcDirs)
     sourceDirectories = project.files(sourceSets.main.allSource.srcDirs)
     classDirectories =  project.files(sourceSets.main.output)
+    executionData += files("${buildDir}/jacoco/integrationTest.exec")
     executionData += files("${buildDir}/jacoco/endtoendTest.exec")
     reports {
         xml.enabled = true
