@@ -14,6 +14,7 @@ import org.jivesoftware.smack.XMPPException;
 
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
+import auctionsniper.ui.SwingThreadSniperListener;
 import auctionsniper.util.Announcer;
 
 public class Main {
@@ -115,25 +116,6 @@ public class Main {
         connection.login(username, password, AUCTION_RESOURCE);
 
         return connection;
-    }
-
-    public class SwingThreadSniperListener implements SniperListener {
-
-        private final SniperListener snipers;
-
-        public SwingThreadSniperListener(SniperListener snipers) {
-            this.snipers = snipers;
-        }
-
-        @Override
-        public void sniperStateChanged(final SniperSnapshot snapshot) {
-            SwingUtilities.invokeLater(new Runnable() {
-                @Override
-                public void run() {
-                    snipers.sniperStateChanged(snapshot);
-                }
-            });
-        }
     }
 
 }
