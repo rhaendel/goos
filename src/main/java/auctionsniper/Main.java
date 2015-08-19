@@ -14,6 +14,7 @@ import org.jivesoftware.smack.XMPPException;
 
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
+import auctionsniper.util.Announcer;
 
 public class Main {
 
@@ -30,11 +31,10 @@ public class Main {
     private final SnipersTableModel snipers = new SnipersTableModel();
     private MainWindow ui;
 
-    private final Collection<Chat> notToBeGCd = new LinkedList<>();
+    private final Collection<Auction> notToBeGCd = new LinkedList<>();
 
     public Main() throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait(new Runnable() {
-
             @Override
             public void run() {
                 ui = new MainWindow(snipers);
@@ -54,22 +54,26 @@ public class Main {
             @Override
             public void joinAuction(String itemId) {
                 snipers.addSniper(SniperSnapshot.joining(itemId));
-                final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-                notToBeGCd.add(chat);
-
-                Auction auction = new XMPPAuction(chat);
-                chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(),
-                        new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
+                Auction auction = new XMPPAuction(connection, itemId);
+                notToBeGCd.add(auction);
+                auction.addAuctionEventListener(new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers)));
                 auction.join();
             }
         });
     }
 
     public static class XMPPAuction implements Auction {
+        private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
         private final Chat chat;
 
-        public XMPPAuction(Chat chat) {
-            this.chat = chat;
+        public XMPPAuction(XMPPConnection connection, String itemId) {
+            this.chat = connection.getChatManager().createChat(auctionId(itemId, connection),
+                    new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce()));
+            ;
+        }
+
+        private static String auctionId(String itemId, XMPPConnection connection) {
+            return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
         }
 
         @Override
@@ -89,6 +93,11 @@ public class Main {
                 e.printStackTrace();
             }
         }
+
+        @Override
+        public void addAuctionEventListener(AuctionEventListener listener) {
+            this.auctionEventListeners.addListener(listener);
+        }
     }
 
     private void disconnectWhenUICloses(final XMPPConnection connection) {
@@ -106,10 +115,6 @@ public class Main {
         connection.login(username, password, AUCTION_RESOURCE);
 
         return connection;
-    }
-
-    private static String auctionId(String itemId, XMPPConnection connection) {
-        return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
     }
 
     public class SwingThreadSniperListener implements SniperListener {
