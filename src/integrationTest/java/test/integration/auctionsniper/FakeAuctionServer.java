@@ -1,4 +1,4 @@
-package test.endtoend.auctionsniper;
+package test.integration.auctionsniper;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.equalTo;

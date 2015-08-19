@@ -4,6 +4,9 @@ import org.jivesoftware.smack.XMPPException;
 import org.junit.After;
 import org.junit.Test;
 
+import test.integration.auctionsniper.ApplicationRunner;
+import test.integration.auctionsniper.FakeAuctionServer;
+
 public class AuctionSniperEndToEndTest {
 
     protected final FakeAuctionServer auction = new FakeAuctionServer("item-54321");

@@ -1,12 +1,11 @@
-package test.endtoend.auctionsniper;
+package test.integration.auctionsniper;
 
 import static auctionsniper.ui.SnipersTableModel.textFor;
-import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
+import static test.integration.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
 
 import auctionsniper.Main;
 import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
-import test.integration.auctionsniper.AuctionSniperDriver;
 
 public class ApplicationRunner {
 
