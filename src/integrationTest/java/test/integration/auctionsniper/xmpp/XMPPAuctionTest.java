@@ -60,7 +60,7 @@ public class XMPPAuctionTest {
         assertTrue("should have been closed", auctionWasClosed.await(2, SECONDS));
     }
 
-    private AuctionEventListener auctionClosedListener(CountDownLatch auctionWasClosed) {
+    private AuctionEventListener auctionClosedListener(final CountDownLatch auctionWasClosed) {
         return new AuctionEventListener() {
 
             @Override
