@@ -1,4 +1,4 @@
-package test.integration.auctionsniper;
+package test.integration.auctionsniper.xmpp;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.junit.Assert.assertTrue;
@@ -14,7 +14,9 @@ import org.junit.Test;
 import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.Main;
-import auctionsniper.Main.XMPPAuction;
+import auctionsniper.xmpp.XMPPAuction;
+import test.integration.auctionsniper.ApplicationRunner;
+import test.integration.auctionsniper.FakeAuctionServer;
 
 public class XMPPAuctionTest {
 

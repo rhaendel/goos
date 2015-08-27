@@ -1,4 +1,4 @@
-package test.auctionsniper;
+package test.auctionsniper.xmpp;
 
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.packet.Message;
@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import auctionsniper.AuctionEventListener;
 import auctionsniper.AuctionEventListener.PriceSource;
-import auctionsniper.AuctionMessageTranslator;
+import auctionsniper.xmpp.AuctionMessageTranslator;
 
 public class AuctionMessageTranslatorTest {
 

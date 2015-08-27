@@ -8,14 +8,13 @@ import java.util.LinkedList;
 
 import javax.swing.SwingUtilities;
 
-import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
 import auctionsniper.ui.SwingThreadSniperListener;
-import auctionsniper.util.Announcer;
+import auctionsniper.xmpp.XMPPAuction;
 
 public class Main {
 
@@ -61,44 +60,6 @@ public class Main {
                 auction.join();
             }
         });
-    }
-
-    public static class XMPPAuction implements Auction {
-        private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
-        private final Chat chat;
-
-        public XMPPAuction(XMPPConnection connection, String itemId) {
-            this.chat = connection.getChatManager().createChat(auctionId(itemId, connection),
-                    new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce()));
-            ;
-        }
-
-        private static String auctionId(String itemId, XMPPConnection connection) {
-            return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
-        }
-
-        @Override
-        public void bid(int amount) {
-            sendMessage(String.format(BID_COMMAND_FORMAT, amount));
-        }
-
-        @Override
-        public void join() {
-            sendMessage(JOIN_COMMAND_FORMAT);
-        }
-
-        private void sendMessage(String message) {
-            try {
-                chat.sendMessage(message);
-            } catch (XMPPException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void addAuctionEventListener(AuctionEventListener listener) {
-            this.auctionEventListeners.addListener(listener);
-        }
     }
 
     private void disconnectWhenUICloses(final XMPPConnection connection) {
