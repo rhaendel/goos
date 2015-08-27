@@ -6,12 +6,14 @@ import static test.integration.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
 import auctionsniper.Main;
 import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
+import auctionsniper.xmpp.XMPPAuctionHouse;
 
 public class ApplicationRunner {
 
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
-    public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + FakeAuctionServer.XMPP_LOCAL_HOSTNAME + "/" + Main.AUCTION_RESOURCE;
+    public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + FakeAuctionServer.XMPP_LOCAL_HOSTNAME + "/"
+            + XMPPAuctionHouse.AUCTION_RESOURCE;
 
     private AuctionSniperDriver driver;
 
