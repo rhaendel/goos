@@ -1,3 +1,4 @@
+
 buildscript {
     repositories {
         jcenter()
@@ -8,14 +9,11 @@ buildscript {
     }
 }
 
-plugins {
-    id 'org.unbroken-dome.test-sets' version '1.2.0'
-}
-
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'jacoco'
 apply plugin: 'com.github.kt3k.coveralls'
+apply from: 'gradle/extraTestSourceSets.gradle'
 
 repositories {
     jcenter()
@@ -32,12 +30,6 @@ tasks.coveralls {
   dependsOn 'build'
 }
 
-testSets {
-    integrationTest
-    endtoendTest { extendsFrom integrationTest }
-    endtoendFailingTest { extendsFrom endtoendTest }
-}
-
 dependencies {
     compile 'org.igniterealtime.smack:smack:3.2.1'
     compile 'commons-lang:commons-lang:2.6'
@@ -50,14 +42,7 @@ dependencies {
     testCompile 'org.igniterealtime.smack:smackx:3.2.1'
     testCompile 'org.jmock:jmock:2.6.0'
     testCompile 'org.jmock:jmock-junit4:2.6.0'
-
-    endtoendTestCompile sourceSets.integrationTest.output
 }
-
-integrationTest.dependsOn test
-endtoendTest.dependsOn integrationTest
-check.dependsOn endtoendTest
-check.dependsOn endtoendFailingTestClasses
 
 task ensureSourceFoldersExist() {
     doLast {
