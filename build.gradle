@@ -1,12 +1,7 @@
 apply plugin: 'java'
-apply plugin: 'eclipse'
 
 repositories {
     jcenter()
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '2.4'
 }
 
 dependencies {
