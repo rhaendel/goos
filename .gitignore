@@ -12,3 +12,7 @@ gradle-app.setting
 /.project
 /.settings/
 /bin/
+
+# Ignore IntelliJ IDEA specific files
+/.idea/
+/out/
