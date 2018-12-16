@@ -30,7 +30,7 @@ download_and_unpack()
 
   mkdir -p "$server_dir"
   cd "$server_dir"
-  wget "http://www.igniterealtime.org/downloadServlet?filename=openfire/$openfire_tgz" -O "$openfire_tgz"
+  curl -o "$openfire_tgz" -L "https://github.com/igniterealtime/Openfire/releases/download/v3.6.0a/$openfire_tgz"
   tar xzf "$openfire_tgz"
   curl -o "$openfire_dir/conf/openfire.xml" "https://raw.githubusercontent.com/rhaendel/goos-infra/master/src/openfire.xml"
 }
