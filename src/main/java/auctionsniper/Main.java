@@ -21,13 +21,7 @@ public class Main {
     }
 
     private void startUserInterface() throws InvocationTargetException, InterruptedException {
-        SwingUtilities.invokeAndWait(new Runnable() {
-
-            @Override
-            public void run() {
-                ui = new MainWindow();
-            }
-        });
+        SwingUtilities.invokeAndWait(() -> ui = new MainWindow());
     }
 
 }
