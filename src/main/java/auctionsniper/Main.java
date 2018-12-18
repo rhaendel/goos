@@ -22,21 +22,26 @@ public class Main {
 
     private MainWindow ui;
 
+    @SuppressWarnings("unused")
+    private Chat notToBeGCd;
+
     public Main() throws InvocationTargetException, InterruptedException {
         startUserInterface();
     }
 
     public static void main(String... args) throws Exception {
         Main main = new Main();
-        XMPPConnection connection = connectTo(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]);
-        Chat chat = connection.getChatManager().createChat(
-                auctionId(args[ARG_ITEM_ID], connection), (chat1, message) -> {
-                    // nothing yet
-                });
+        main.joinAuction(connection(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]), args[ARG_ITEM_ID]);
+    }
+
+    private void joinAuction(XMPPConnection connection, String itemId) throws XMPPException {
+        Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection),
+                (chat1, message) -> SwingUtilities.invokeLater(() -> ui.showStatus(MainWindow.STATUS_LOST)));
+        this.notToBeGCd = chat;
         chat.sendMessage(new Message());
     }
 
-    private static XMPPConnection connectTo(String hostname, String username, String password)
+    private static XMPPConnection connection(String hostname, String username, String password)
             throws XMPPException {
         XMPPConnection connection = new XMPPConnection(hostname);
         connection.connect();
