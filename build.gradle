@@ -14,12 +14,12 @@ tasks.coveralls {
 }
 
 dependencies {
+    compile 'org.igniterealtime.smack:smack:3.2.1'
     testCompile 'junit:junit:4.12'
     testCompile 'org.hamcrest:hamcrest-library:1.3'
     testCompile ('com.googlecode.windowlicker:windowlicker-swing:r268') {
         exclude module: 'hamcrest-all'
     }
-    testCompile 'org.igniterealtime.smack:smack:3.2.1'
     testCompile 'org.igniterealtime.smack:smackx:3.2.1'
 }
 
