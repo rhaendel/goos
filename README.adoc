@@ -13,8 +13,8 @@ by Steve Freeman and Nat Pryce.
 
 == Prerequisites
 
-The book's example code doesn't need a higher version than Java 6. But sometimes I make use of Java 7 features.
-Hence, a Java JDK or JRE version 7 is needed. All further java dependencies (libraries needed at compile time, at
+The book's example code doesn't need a higher version than Java 6. But sometimes I make use of Java 8 features.
+Hence, a JDK version 8 is needed. All further java dependencies (libraries needed at compile time, at
 test time and at runtime) are managed and downloaded automatically by https://gradle.org/[Gradle].
 
 The https://en.wikipedia.org/wiki/Openfire[Openfire] server is assumed to be "already there".

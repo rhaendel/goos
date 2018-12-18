@@ -12,10 +12,10 @@ public class AuctionSniperDriver extends JFrameDriver {
 
     @SuppressWarnings("unchecked")
     public AuctionSniperDriver(int timeoutMillis) {
-        super(new GesturePerformer(), //
-                JFrameDriver.topLevelFrame( //
-                        named(Main.MAIN_WINDOW_NAME), //
-                        showingOnScreen()), //
+        super(new GesturePerformer(),
+                JFrameDriver.topLevelFrame(
+                        named(Main.MAIN_WINDOW_NAME),
+                        showingOnScreen()),
                 new AWTEventQueueProber(timeoutMillis, 100));
     }
 
