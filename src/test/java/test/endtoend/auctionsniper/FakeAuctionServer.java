@@ -1,14 +1,15 @@
 package test.endtoend.auctionsniper;
 
-import static java.lang.String.format;
-
 import org.jivesoftware.smack.Chat;
-import org.jivesoftware.smack.ChatManagerListener;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.junit.Assert;
+import org.jivesoftware.smack.packet.Message;
+
+import static java.lang.String.format;
 
 public class FakeAuctionServer {
+
+    private final SingleMessageListener messageListener = new SingleMessageListener();
 
     public static final String ITEM_ID_AS_LOGIN = "auction-%s";
     public static final String AUCTION_RESOURCE = "Auction";
@@ -27,19 +28,22 @@ public class FakeAuctionServer {
     public void startSellingItem() throws XMPPException {
         connection.connect();
         connection.login(format(ITEM_ID_AS_LOGIN, itemId), AUCTION_PASSWORD, AUCTION_RESOURCE);
-        connection.getChatManager().addChatListener((chat, createdLocally) -> currentChat = chat);
+        connection.getChatManager().addChatListener((chat, createdLocally) -> {
+            currentChat = chat;
+            chat.addMessageListener(messageListener);
+        });
     }
 
-    public void hasReceivedJoinRequestFromSniper() {
-        Assert.fail();
+    public void hasReceivedJoinRequestFromSniper() throws InterruptedException {
+        messageListener.receivesAMessage();
     }
 
-    public void announceClosed() {
-        // TODO Auto-generated method stub
+    public void announceClosed() throws XMPPException {
+        currentChat.sendMessage(new Message());
     }
 
     public void stop() {
-        // TODO Auto-generated method stub
+        connection.disconnect();
     }
 
     public String getItemID() {

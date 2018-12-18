@@ -20,6 +20,7 @@ dependencies {
         exclude module: 'hamcrest-all'
     }
     testCompile 'org.igniterealtime.smack:smack:3.2.1'
+    testCompile 'org.igniterealtime.smack:smackx:3.2.1'
 }
 
 jacocoTestReport {
