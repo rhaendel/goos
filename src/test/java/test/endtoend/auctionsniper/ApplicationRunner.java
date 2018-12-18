@@ -1,13 +1,13 @@
 package test.endtoend.auctionsniper;
 
 import auctionsniper.Main;
+import auctionsniper.ui.MainWindow;
 
 public class ApplicationRunner {
 
     private static final String XMPP_HOSTNAME = "localhost";
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
-    private static final String STATUS_JOINING = "Joining";
     private static final String STATUS_LOST = "Lost";
 
     private AuctionSniperDriver driver;
@@ -21,13 +21,13 @@ public class ApplicationRunner {
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-            };
+            }
         };
 
         thread.setDaemon(true);
         thread.start();
         driver = new AuctionSniperDriver(1000);
-        driver.showsSniperStatus(STATUS_JOINING);
+        driver.showsSniperStatus(MainWindow.STATUS_JOINING);
     }
 
     public void showsSniperHasLostAuction() {
