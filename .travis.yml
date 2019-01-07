@@ -14,7 +14,7 @@ env:
   - TERM=dumb
 
 after_success:
-  - ./gradlew jacocoTestReport coveralls --info
+  - ./gradlew jacocoEndtoendTestReport coveralls --info
 
 after_script:
   - kill $(cat server/openfire.pid)
