@@ -7,7 +7,8 @@ public class ApplicationRunner {
 
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
-    public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + FakeAuctionServer.XMPP_HOSTNAME + "/Auction";
+    public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + FakeAuctionServer.XMPP_HOSTNAME + "/"
+            + Main.AUCTION_RESOURCE;
     private AuctionSniperDriver driver;
 
     public void startBiddingIn(final FakeAuctionServer auction) {
@@ -39,8 +40,7 @@ public class ApplicationRunner {
     }
 
     public void hasShownSniperIsBidding() {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException();
+        driver.showsSniperStatus(MainWindow.STATUS_BIDDING);
     }
 
 }
