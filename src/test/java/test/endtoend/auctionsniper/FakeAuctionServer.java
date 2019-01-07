@@ -15,7 +15,7 @@ public class FakeAuctionServer {
 
     private final SingleMessageListener messageListener = new SingleMessageListener();
 
-    public static final String XMPP_HOSTNAME = "localhost";
+    public static final String XMPP_HOSTNAME = "127.0.0.1";
     private static final String AUCTION_PASSWORD = "auction";
 
     private final String itemId;
