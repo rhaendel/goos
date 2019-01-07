@@ -18,6 +18,10 @@ tasks.coveralls {
   dependsOn 'endtoendTest'
 }
 
+coveralls {
+    jacocoReportPath 'build/reports/jacoco/jacocoEndtoendTestReport/jacocoEndtoendTestReport.xml'
+}
+
 dependencies {
     compile 'org.igniterealtime.smack:smack:3.2.1'
     testCompile 'junit:junit:4.12'
@@ -30,7 +34,12 @@ dependencies {
     endtoendFailingTestImplementation sourceSets.endtoendTest.output
 }
 
-jacocoTestReport {
+task jacocoEndtoendTestReport(type:JacocoReport) {
+    executionData endtoendTest
+    sourceSets sourceSets.main
+}
+
+jacocoEndtoendTestReport {
     group = 'Reporting'
     description = 'Generate Jacoco coverage reports after running tests.'
     reports {
