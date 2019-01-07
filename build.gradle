@@ -1,11 +1,16 @@
 plugins {
     id 'java'
+    id 'org.unbroken-dome.test-sets' version '2.0.3'
     id 'jacoco'
     id 'com.github.kt3k.coveralls' version '2.8.2'
 }
 
 repositories {
     jcenter()
+}
+
+testSets {
+    endtoendTest
 }
 
 tasks.coveralls {
