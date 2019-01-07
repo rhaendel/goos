@@ -5,7 +5,7 @@ before_install:
   - "sh -e /etc/init.d/xvfb start"
   - ./setup_openfire.sh
 
-script: ./gradlew clean build --info
+script: ./gradlew clean build endtoendTest --info
 
 jdk:
   - oraclejdk8

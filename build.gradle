@@ -11,10 +11,11 @@ repositories {
 
 testSets {
     endtoendTest
+    endtoendFailingTest
 }
 
 tasks.coveralls {
-  dependsOn 'build'
+  dependsOn 'endtoendTest'
 }
 
 dependencies {
@@ -25,6 +26,8 @@ dependencies {
         exclude module: 'hamcrest-all'
     }
     testCompile 'org.igniterealtime.smack:smackx:3.2.1'
+
+    endtoendFailingTestImplementation sourceSets.endtoendTest.output
 }
 
 jacocoTestReport {

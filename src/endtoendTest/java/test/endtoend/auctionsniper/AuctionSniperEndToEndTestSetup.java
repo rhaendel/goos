@@ -1,0 +1,20 @@
+package test.endtoend.auctionsniper;
+
+import org.junit.After;
+
+public class AuctionSniperEndToEndTestSetup {
+
+    protected final FakeAuctionServer auction = new FakeAuctionServer("item-54321");
+    protected final ApplicationRunner application = new ApplicationRunner();
+
+    @After
+    public void stopAuction() {
+        auction.stop();
+    }
+
+    @After
+    public void stopApplication() {
+        application.stop();
+    }
+
+}
