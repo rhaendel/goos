@@ -5,7 +5,6 @@ import org.hamcrest.Matcher;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
-import org.jivesoftware.smack.packet.Message;
 
 import static java.lang.String.format;
 import static org.hamcrest.Matchers.equalTo;
@@ -37,8 +36,8 @@ public class FakeAuctionServer {
     }
 
     public void reportPrice(int price, int increment, String bidder) throws XMPPException {
-        currentChat.sendMessage(format("SQLVersion: 1.1; Event: PRICE; CurrentPrice: %d, Increment: %d; Bidder: %s:",
-                price, increment, bidder));
+        currentChat.sendMessage(format("SOLVersion: 1.1; Event: PRICE; CurrentPrice: %d, Increment: %d; Bidder: %s:", price, increment,
+                bidder));
     }
 
     public void hasReceivedJoinRequestFrom(String sniperId) throws InterruptedException {
@@ -49,14 +48,13 @@ public class FakeAuctionServer {
         receivesAMessageMatching(sniperId, equalTo(format(Main.BID_COMMAND_FORMAT, bid)));
     }
 
-    private void receivesAMessageMatching(String sniperId, Matcher<? super String> messageMatcher)
-            throws InterruptedException {
+    private void receivesAMessageMatching(String sniperId, Matcher<? super String> messageMatcher) throws InterruptedException {
         messageListener.receivesAMessage(messageMatcher);
         assertThat(currentChat.getParticipant(), equalTo(sniperId));
     }
 
     public void announceClosed() throws XMPPException {
-        currentChat.sendMessage(new Message());
+        currentChat.sendMessage("SOLVersion: 1.1; Event: CLOSE;");
     }
 
     public void stop() {
