@@ -30,12 +30,14 @@ dependencies {
         exclude module: 'hamcrest-all'
     }
     testCompile 'org.igniterealtime.smack:smackx:3.2.1'
+    testCompile 'org.jmock:jmock:2.6.0'
+    testCompile 'org.jmock:jmock-junit4:2.6.0'
 
     endtoendFailingTestImplementation sourceSets.endtoendTest.output
 }
 
 task jacocoEndtoendTestReport(type:JacocoReport) {
-    executionData endtoendTest
+    executionData test, endtoendTest
     sourceSets sourceSets.main
 }
 
