@@ -2,7 +2,7 @@ package test.endtoend.auctionsniper;
 
 import org.junit.Test;
 
-public class AuctionSniperEndToEndTest extends AuctionSniperEndToEndTestSetup {
+public class AuctionSniperEndToEndFailingTest extends AuctionSniperEndToEndTestSetup {
 
     @Test
     public void sniperMakesAHigherBidButLoses() throws Exception {

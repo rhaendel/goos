@@ -16,6 +16,7 @@ gradle-app.setting
 # Ignore IntelliJ IDEA specific files
 /.idea/
 /out/
+/*.iml
 
 # Ignore an eventually downloaded openfire server
 server/
