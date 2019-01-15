@@ -34,10 +34,20 @@ Eclipse and IntelliJ IDEA are able to import Gradle projects without any additio
 
 == Build and run all Tests
 
-At the current stage of following the book, there is only one class of tests: End-to-end acceptance tests.
+The build distinguishes between three different kinds of tests:
 
-Hence, the build doesn't have do distinguish between different kinds of tests (, yet).
+* Unit tests: Very fast running tests that handle a single aspect (= a single class).
+  They are executed together with the `compile` task using:
 
   ./gradlew build
 
-...compiles, builds and runs all tests. (And... fails - at the current stage, of course.)
+* End-to-end tests: Acceptance tests that once have driven development and now have to stay stable. They are designed to
+  be as much end-to-end as possible, drive the UI directly and go through the whole stack, down to the Openfire chat server.
+  They are run with the command:
+
+  ./gradlew endtoendTest
+
+* The test that drives development: A single end-to-end test which fails until the new feature is finally developed and
+  the test moves over to the other end-to-end tests. It is not part of the CI build and intended to run locally, only:
+
+  ./gradlew endtoendFailingTest
