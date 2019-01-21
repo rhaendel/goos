@@ -65,6 +65,46 @@ public class AuctionSniperTest {
     }
 
     @Test
+    public void reportsIsBiddingAndLostAfterWinningButAPriceComesFromOtherBidder() {
+        context.checking(new Expectations() {{
+            ignoring(auction);
+            atLeast(1).of(sniperListener).sniperWinning();
+            then(sniperState.is("winning"));
+
+            atLeast(1).of(sniperListener).sniperBidding();
+            when(sniperState.is("winning"));
+            then(sniperState.is("bidding"));
+
+            atLeast(1).of(sniperListener).sniperLost();
+            when(sniperState.is("bidding"));
+        }});
+
+        sniper.currentPrice(123, 45, PriceSource.FromSniper);
+        sniper.currentPrice(168, 45, PriceSource.FromOtherBidder);
+        sniper.auctionClosed();
+    }
+
+    @Test
+    public void reportsIsWinningAndWonAfterBiddingHigherThanOtherBidder() {
+        context.checking(new Expectations() {{
+            ignoring(auction);
+            atLeast(1).of(sniperListener).sniperBidding();
+            then(sniperState.is("bidding"));
+
+            atLeast(1).of(sniperListener).sniperWinning();
+            when(sniperState.is("bidding"));
+            then(sniperState.is("winning"));
+
+            atLeast(1).of(sniperListener).sniperWon();
+            when(sniperState.is("winning"));
+        }});
+
+        sniper.currentPrice(123, 45, PriceSource.FromOtherBidder);
+        sniper.currentPrice(168, 45, PriceSource.FromSniper);
+        sniper.auctionClosed();
+    }
+
+    @Test
     public void reportsWonIfAuctionClosesWhenWinning() {
         context.checking(new Expectations() {{
             ignoring(auction);
