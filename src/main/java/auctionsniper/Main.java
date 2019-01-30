@@ -102,11 +102,6 @@ public class Main {
     public class SniperStateDisplayer implements SniperListener {
 
         @Override
-        public void sniperBidding(final SniperSnapshot state) {
-            SwingUtilities.invokeLater(() -> ui.sniperStatusChanged(state, MainWindow.STATUS_BIDDING));
-        }
-
-        @Override
         public void sniperLost() {
             showStatus(MainWindow.STATUS_LOST);
         }
@@ -123,6 +118,11 @@ public class Main {
 
         private void showStatus(final String status) {
             SwingUtilities.invokeLater(() -> ui.showStatusText(status));
+        }
+
+        @Override
+        public void sniperStateChanged(final SniperSnapshot sniperSnapshot) {
+            SwingUtilities.invokeLater(() -> ui.sniperStatusChanged(sniperSnapshot));
         }
     }
 

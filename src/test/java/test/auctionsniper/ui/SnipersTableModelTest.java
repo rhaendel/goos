@@ -16,6 +16,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import auctionsniper.SniperSnapshot;
+import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
 import auctionsniper.ui.SnipersTableModel.Column;
@@ -43,7 +44,7 @@ public class SnipersTableModelTest {
             oneOf(listener).tableChanged(with(aRowChangedEvent()));
         }});
 
-        model.sniperStatusChanged(new SniperSnapshot("item id", 555, 666), MainWindow.STATUS_BIDDING);
+        model.sniperStateChanged(new SniperSnapshot("item id", 555, 666, SniperState.BIDDING));
 
         assertColumnEquals(Column.ITEM_IDENTIFIER, "item id");
         assertColumnEquals(Column.LAST_PRICE, 555);
