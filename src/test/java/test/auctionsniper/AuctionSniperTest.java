@@ -4,12 +4,12 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener.PriceSource;
 import auctionsniper.AuctionSniper;
 import auctionsniper.SniperListener;
+import auctionsniper.SniperSnapshot;
 import org.jmock.Expectations;
 import org.jmock.States;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
-import auctionsniper.SniperState;
 
 public class AuctionSniperTest {
 
@@ -35,7 +35,7 @@ public class AuctionSniperTest {
     public void reportsLostIfAuctionClosesWhenBidding() {
         context.checking(new Expectations() {{
             ignoring(auction);
-            allowing(sniperListener).sniperBidding(with(any(SniperState.class)));
+            allowing(sniperListener).sniperBidding(with(any(SniperSnapshot.class)));
             then(sniperState.is("bidding"));
 
             atLeast(1).of(sniperListener).sniperLost();
@@ -53,7 +53,7 @@ public class AuctionSniperTest {
         final int bid = price + increment;
         context.checking(new Expectations() {{
             oneOf(auction).bid(bid);
-            atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, price, bid));
+            atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, price, bid));
         }});
 
         sniper.currentPrice(price, increment, PriceSource.FromOtherBidder);
@@ -75,7 +75,7 @@ public class AuctionSniperTest {
             atLeast(1).of(sniperListener).sniperWinning();
             then(sniperState.is("winning"));
 
-            atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, 168, 213));
+            atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, 168, 213));
             when(sniperState.is("winning"));
             then(sniperState.is("bidding"));
 
@@ -92,7 +92,7 @@ public class AuctionSniperTest {
     public void reportsIsWinningAndWonAfterBiddingHigherThanOtherBidder() {
         context.checking(new Expectations() {{
             ignoring(auction);
-            atLeast(1).of(sniperListener).sniperBidding(new SniperState(ITEM_ID, 123, 168));
+            atLeast(1).of(sniperListener).sniperBidding(new SniperSnapshot(ITEM_ID, 123, 168));
             then(sniperState.is("bidding"));
 
             atLeast(1).of(sniperListener).sniperWinning();
