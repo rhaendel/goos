@@ -2,10 +2,11 @@ package auctionsniper.ui;
 
 import javax.swing.table.AbstractTableModel;
 
+import auctionsniper.SniperListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 
-public class SnipersTableModel extends AbstractTableModel {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener {
 
     private static final long serialVersionUID = 1L;
 
@@ -29,6 +30,7 @@ public class SnipersTableModel extends AbstractTableModel {
         return Column.at(columnIndex).valueIn(snapshot);
     }
 
+    @Override
     public void sniperStateChanged(SniperSnapshot newSnapshot) {
         this.snapshot = newSnapshot;
         fireTableRowsUpdated(0, 0);

@@ -13,12 +13,12 @@ public class MainWindow extends JFrame {
     private static final long serialVersionUID = 1L;
 
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
-    private static final String APPLICATION_TITLE = "Auction Sniper";
     private static final String SNIPERS_TABLE_NAME = "Snipers";
-    private final SnipersTableModel snipers = new SnipersTableModel();
+    private final SnipersTableModel snipers;
 
-    public MainWindow() {
-        super(APPLICATION_TITLE);
+    public MainWindow(SnipersTableModel snipers) {
+        super("Auction Sniper");
+        this.snipers = snipers;
         setName(MAIN_WINDOW_NAME);
         fillContentPane(makeSnipersTable());
         pack();
@@ -39,7 +39,4 @@ public class MainWindow extends JFrame {
         return snipersTable;
     }
 
-    public void sniperStatusChanged(SniperSnapshot sniperSnapshot) {
-        snipers.sniperStateChanged(sniperSnapshot);
-    }
 }
