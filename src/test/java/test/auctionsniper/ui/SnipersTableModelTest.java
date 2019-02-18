@@ -74,6 +74,52 @@ public class SnipersTableModelTest {
         assertRowMatchesSnapshot(0, joining);
     }
 
+    @Test
+    public void holdsSnipersInAdditionOrder() {
+        context.checking(new Expectations() {{
+            ignoring(listener);
+        }});
+
+        model.addSniper(SniperSnapshot.joining("item 0"));
+        model.addSniper(SniperSnapshot.joining("item 1"));
+
+        assertEquals("item 0", cellValue(0, Column.ITEM_IDENTIFIER));
+        assertEquals("item 1", cellValue(1, Column.ITEM_IDENTIFIER));
+    }
+
+    @Test
+    public void updatesCorrectRowForSniper() {
+        context.checking(new Expectations() {{
+            allowing(listener).tableChanged(with(anyInsertionEvent()));
+            oneOf(listener).tableChanged(with(aChangeInRow(1)));
+        }});
+
+        SniperSnapshot joining = SniperSnapshot.joining("item 1");
+
+        model.addSniper(SniperSnapshot.joining("item 0"));
+        model.addSniper(joining);
+        model.addSniper(SniperSnapshot.joining("item 2"));
+
+        assertStateInRow(SniperState.JOINING, 0);
+        assertStateInRow(SniperState.JOINING, 1);
+        assertStateInRow(SniperState.JOINING, 2);
+
+        model.sniperStateChanged(joining.bidding(123, 123));
+
+        assertStateInRow(SniperState.JOINING, 0);
+        assertStateInRow(SniperState.BIDDING, 1);
+        assertStateInRow(SniperState.JOINING, 2);
+    }
+
+    @Test(expected = auctionsniper.exception.Defect.class)
+    public void throwsDefectIfNoExistingSniperForAnUpdate() {
+        model.sniperStateChanged(SniperSnapshot.joining("item").bidding(123, 123));
+    }
+
+    private void assertStateInRow(SniperState expectedState, int row) {
+        assertEquals(SnipersTableModel.textFor(expectedState), cellValue(row, Column.SNIPER_STATE));
+    }
+
     private void assertRowMatchesSnapshot(int row, SniperSnapshot snapshot) {
         assertEquals(snapshot.itemId, cellValue(row, Column.ITEM_IDENTIFIER));
         assertEquals(snapshot.lastPrice, cellValue(row, Column.LAST_PRICE));
