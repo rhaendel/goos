@@ -10,6 +10,8 @@ import javax.swing.SwingUtilities;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
+import java.util.Collection;
+import java.util.LinkedList;
 
 public class Main {
 
@@ -27,8 +29,7 @@ public class Main {
     private final SnipersTableModel snipers = new SnipersTableModel();
     private MainWindow ui;
 
-    @SuppressWarnings("unused")
-    private Chat notToBeGCd;
+    private final Collection<Chat> notToBeGCd = new LinkedList<>();
 
     private Main() throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait(() -> ui = new MainWindow(snipers));
@@ -36,19 +37,27 @@ public class Main {
 
     public static void main(String... args) throws Exception {
         Main main = new Main();
-        main.joinAuction(connection(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]), args[ARG_ITEM_ID]);
+        XMPPConnection connection = connection(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]);
+        main.disconnectWhenUICloses(connection);
+
+        for (int i = ARG_ITEM_ID; i < args.length; i++) {
+            main.joinAuction(connection, args[i]);
+        }
     }
 
-    private void joinAuction(XMPPConnection connection, String itemId) {
-        disconnectWhenUICloses(connection);
-
+    private void joinAuction(XMPPConnection connection, String itemId) throws Exception {
+        safelyAddItemToModel(itemId);
         final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-        this.notToBeGCd = chat;
+        this.notToBeGCd.add(chat);
 
         Auction auction = new XMPPAuction(chat);
-        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(), new AuctionSniper(auction,
-                new SwingThreadSniperListener(snipers), itemId)));
+        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(),
+                new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
         auction.join();
+    }
+
+    private void safelyAddItemToModel(String itemId) throws Exception {
+        SwingUtilities.invokeAndWait(() -> snipers.addSniper(SniperSnapshot.joining(itemId)));
     }
 
     public static class XMPPAuction implements Auction {
