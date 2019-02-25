@@ -1,12 +1,14 @@
 package auctionsniper.ui;
 
-import auctionsniper.SniperSnapshot;
-
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import java.awt.BorderLayout;
 import java.awt.Container;
+import java.awt.FlowLayout;
 
 public class MainWindow extends JFrame {
 
@@ -16,26 +18,41 @@ public class MainWindow extends JFrame {
     public static final String MAIN_WINDOW_NAME = "Auction Sniper Main";
     private static final String SNIPERS_TABLE_NAME = "Snipers";
 
-    private final SnipersTableModel snipers;
+    public static final String NEW_ITEM_ID_NAME = "New Item ID";
+    public static final String JOIN_BUTTON_NAME = "Join Auction";
 
     public MainWindow(SnipersTableModel snipers) {
         super(APPLICATION_TITLE);
-        this.snipers = snipers;
         setName(MAIN_WINDOW_NAME);
-        fillContentPane(makeSnipersTable());
+        fillContentPane(makeSnipersTable(snipers), makeControls());
         pack();
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setVisible(true);
     }
 
-    private void fillContentPane(JTable snipersTable) {
+    private JPanel makeControls() {
+        final JPanel controls = new JPanel(new FlowLayout());
+        final JTextField itemIdField = new JTextField();
+        itemIdField.setColumns(25);
+        itemIdField.setName(NEW_ITEM_ID_NAME);
+        controls.add(itemIdField);
+
+        JButton joinAuctionButton = new JButton("Join Auction");
+        joinAuctionButton.setName(JOIN_BUTTON_NAME);
+        controls.add(joinAuctionButton);
+
+        return controls;
+    }
+
+    private void fillContentPane(JTable snipersTable, JPanel controls) {
         final Container contentPane = getContentPane();
         contentPane.setLayout(new BorderLayout());
 
+        contentPane.add(controls, BorderLayout.NORTH);
         contentPane.add(new JScrollPane(snipersTable), BorderLayout.CENTER);
     }
 
-    private JTable makeSnipersTable() {
+    private JTable makeSnipersTable(SnipersTableModel snipers) {
         final JTable snipersTable = new JTable(snipers);
         snipersTable.setName(SNIPERS_TABLE_NAME);
         return snipersTable;
