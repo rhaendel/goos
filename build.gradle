@@ -10,12 +10,13 @@ repositories {
 }
 
 testSets {
-    endtoendTest
+    integrationTest
+    endtoendTest { extendsFrom integrationTest }
     endtoendFailingTest { extendsFrom endtoendTest }
 }
 
 tasks.coveralls {
-  dependsOn 'endtoendTest'
+  dependsOn 'endtoendTest', 'integrationTest'
 }
 
 coveralls {
@@ -31,14 +32,15 @@ dependencies {
     testCompile 'org.jmock:jmock:2.6.0'
     testCompile 'org.jmock:jmock-junit4:2.6.0'
 
-    endtoendTestCompile ('com.googlecode.windowlicker:windowlicker-swing:r268') {
+    integrationTestCompile ('com.googlecode.windowlicker:windowlicker-swing:r268') {
         exclude module: 'hamcrest-all'
     }
+    endtoendTestCompile sourceSets.integrationTest.output
     endtoendFailingTestCompile sourceSets.endtoendTest.output
 }
 
 task jacocoEndtoendTestReport(type:JacocoReport) {
-    executionData test, endtoendTest
+    executionData test, endtoendTest, integrationTest
     sourceSets sourceSets.main
 }
 

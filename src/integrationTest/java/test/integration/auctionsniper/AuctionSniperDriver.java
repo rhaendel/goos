@@ -1,4 +1,4 @@
-package test.endtoend.auctionsniper;
+package test.integration.auctionsniper;
 
 import auctionsniper.ui.MainWindow;
 import com.objogate.wl.swing.AWTEventQueueProber;
@@ -18,10 +18,10 @@ import static com.objogate.wl.swing.matcher.JLabelTextMatcher.withLabelText;
 import static java.lang.String.valueOf;
 import static org.hamcrest.CoreMatchers.equalTo;
 
-class AuctionSniperDriver extends JFrameDriver {
+public class AuctionSniperDriver extends JFrameDriver {
 
     @SuppressWarnings("unchecked")
-    AuctionSniperDriver(int timeoutMillis) {
+    public AuctionSniperDriver(int timeoutMillis) {
         super(new GesturePerformer(),
                 JFrameDriver.topLevelFrame(
                         named(MainWindow.MAIN_WINDOW_NAME),
@@ -29,7 +29,7 @@ class AuctionSniperDriver extends JFrameDriver {
                         new AWTEventQueueProber(timeoutMillis, 100));
     }
 
-    void startBiddingFor(String itemId) {
+    public void startBiddingFor(String itemId) {
         itemIdField().replaceAllText(itemId);
         bidButton().click();
     }
@@ -47,12 +47,12 @@ class AuctionSniperDriver extends JFrameDriver {
     }
 
     @SuppressWarnings("unchecked")
-    void showsSniperStatus(String statusText) {
+    public void showsSniperStatus(String statusText) {
         new JTableDriver(this).hasCell(withLabelText(equalTo(statusText)));
     }
 
     @SuppressWarnings("unchecked")
-    void showsSniperStatus(String itemId, int lastPrice, int lastBid, String statusText) {
+    public void showsSniperStatus(String itemId, int lastPrice, int lastBid, String statusText) {
         JTableDriver table = new JTableDriver(this);
         table.hasRow(matching( //
                 withLabelText(itemId), withLabelText(valueOf(lastPrice)), //
@@ -60,7 +60,7 @@ class AuctionSniperDriver extends JFrameDriver {
     }
 
     @SuppressWarnings("unchecked")
-    void hasColumnTitles() {
+    public void hasColumnTitles() {
         JTableHeaderDriver headers = new JTableHeaderDriver(this, JTableHeader.class);
         headers.hasHeaders(matching(withLabelText("Item"), withLabelText("Last Price"), withLabelText("Last Bid"), withLabelText("State")));
     }

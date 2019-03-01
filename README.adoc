@@ -41,11 +41,20 @@ The build distinguishes between three different kinds of tests:
 
   ./gradlew build
 
+and, however, can be run separately with:
+
+  ./gradlew test
+
 * End-to-end tests: Acceptance tests that once have driven development and now have to stay stable. They are designed to
   be as much end-to-end as possible, drive the UI directly and go through the whole stack, down to the Openfire chat server.
   They are run with the command:
 
   ./gradlew endtoendTest
+
+* Integration tests: This level of testing lies in between of unit tests and end-to-end tests. It tests the integration
+  of several classes.
+
+  ./gradlew integrationTest
 
 * The test that drives development: A single end-to-end test which fails until the new feature is finally developed and
   the test moves over to the other end-to-end tests. It is not part of the CI build and intended to run locally, only:

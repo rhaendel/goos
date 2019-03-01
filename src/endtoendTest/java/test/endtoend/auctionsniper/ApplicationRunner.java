@@ -3,6 +3,7 @@ package test.endtoend.auctionsniper;
 import auctionsniper.Main;
 import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
+import test.integration.auctionsniper.AuctionSniperDriver;
 
 import static auctionsniper.ui.SnipersTableModel.textFor;
 import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
