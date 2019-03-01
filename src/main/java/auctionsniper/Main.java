@@ -18,7 +18,6 @@ public class Main {
     private static final int ARG_HOSTNAME = 0;
     private static final int ARG_USERNAME = 1;
     private static final int ARG_PASSWORD = 2;
-    private static final int ARG_ITEM_ID = 3;
 
     public static final String AUCTION_RESOURCE = "Auction";
     public static final String ITEM_ID_AS_LOGIN = "auction-%s";
@@ -39,25 +38,20 @@ public class Main {
         Main main = new Main();
         XMPPConnection connection = connection(args[ARG_HOSTNAME], args[ARG_USERNAME], args[ARG_PASSWORD]);
         main.disconnectWhenUICloses(connection);
-
-        for (int i = ARG_ITEM_ID; i < args.length; i++) {
-            main.joinAuction(connection, args[i]);
-        }
+        main.addUserRequestListenerFor(connection);
     }
 
-    private void joinAuction(XMPPConnection connection, String itemId) throws Exception {
-        safelyAddItemToModel(itemId);
-        final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
-        this.notToBeGCd.add(chat);
+    private void addUserRequestListenerFor(final XMPPConnection connection) {
+        ui.addUserRequestListener(itemId -> {
+            snipers.addSniper(SniperSnapshot.joining(itemId));
+            final Chat chat = connection.getChatManager().createChat(auctionId(itemId, connection), null);
+            notToBeGCd.add(chat);
 
-        Auction auction = new XMPPAuction(chat);
-        chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(),
-                new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
-        auction.join();
-    }
-
-    private void safelyAddItemToModel(String itemId) throws Exception {
-        SwingUtilities.invokeAndWait(() -> snipers.addSniper(SniperSnapshot.joining(itemId)));
+            Auction auction = new XMPPAuction(chat);
+            chat.addMessageListener(new AuctionMessageTranslator(connection.getUser(),
+                    new AuctionSniper(auction, new SwingThreadSniperListener(snipers), itemId)));
+            auction.join();
+        });
     }
 
     public static class XMPPAuction implements Auction {
