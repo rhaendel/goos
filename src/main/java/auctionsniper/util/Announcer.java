@@ -1,6 +1,5 @@
 package auctionsniper.util;
 
-import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.lang.reflect.Proxy;
@@ -16,14 +15,11 @@ public class Announcer<T extends EventListener> {
     private final T proxy;
     private final List<T> listeners = new ArrayList<T>();
 
-    public Announcer(Class<? extends T> listenerType) {
+    private Announcer(Class<? extends T> listenerType) {
         proxy = listenerType
-                .cast(Proxy.newProxyInstance(listenerType.getClassLoader(), new Class<?>[] { listenerType }, new InvocationHandler() {
-                    @Override
-                    public Object invoke(Object aProxy, Method method, Object[] args) throws Throwable {
-                        announce(method, args);
-                        return null;
-                    }
+                .cast(Proxy.newProxyInstance(listenerType.getClassLoader(), new Class<?>[] { listenerType }, (aProxy, method, args) -> {
+                    announce(method, args);
+                    return null;
                 }));
     }
 
