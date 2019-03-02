@@ -7,6 +7,9 @@ plugins {
 
 repositories {
     jcenter()
+    flatDir {
+        dirs 'lib'
+    }
 }
 
 testSets {
@@ -32,9 +35,8 @@ dependencies {
     testCompile 'org.jmock:jmock:2.6.0'
     testCompile 'org.jmock:jmock-junit4:2.6.0'
 
-    integrationTestCompile ('com.googlecode.windowlicker:windowlicker-swing:r268') {
-        exclude module: 'hamcrest-all'
-    }
+    integrationTestCompile name: 'windowlicker-core-DEV'
+    integrationTestCompile name: 'windowlicker-swing-DEV'
     endtoendTestCompile sourceSets.integrationTest.output
     endtoendFailingTestCompile sourceSets.endtoendTest.output
 }
