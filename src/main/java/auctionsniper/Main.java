@@ -2,6 +2,7 @@ package auctionsniper;
 
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
+import auctionsniper.ui.SwingThreadSniperListener;
 import auctionsniper.util.Announcer;
 import org.jivesoftware.smack.Chat;
 import org.jivesoftware.smack.XMPPConnection;
@@ -103,20 +104,6 @@ public class Main {
         connection.connect();
         connection.login(username, password, AUCTION_RESOURCE);
         return connection;
-    }
-
-    public class SwingThreadSniperListener implements SniperListener {
-
-        private final SniperListener snipers;
-
-        SwingThreadSniperListener(SniperListener snipers) {
-            this.snipers = snipers;
-        }
-
-        @Override
-        public void sniperStateChanged(final SniperSnapshot snapshot) {
-            SwingUtilities.invokeLater(() -> snipers.sniperStateChanged(snapshot));
-        }
     }
 
 }
