@@ -3,8 +3,7 @@ package auctionsniper;
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
 import auctionsniper.ui.SwingThreadSniperListener;
-import auctionsniper.util.Announcer;
-import org.jivesoftware.smack.Chat;
+import auctionsniper.xmpp.XMPPAuction;
 import org.jivesoftware.smack.XMPPConnection;
 import org.jivesoftware.smack.XMPPException;
 
@@ -23,7 +22,6 @@ public class Main {
 
     public static final String AUCTION_RESOURCE = "Auction";
     public static final String ITEM_ID_AS_LOGIN = "auction-%s";
-    private static final String AUCTION_ID_FORMAT = ITEM_ID_AS_LOGIN + "@%s/" + AUCTION_RESOURCE;
     public static final String JOIN_COMMAND_FORMAT = "SOLVersion: 1.1; Command: JOIN;";
     public static final String BID_COMMAND_FORMAT = "SOLVersion: 1.1; Command: BID; Price: %d;";
 
@@ -51,43 +49,6 @@ public class Main {
             auction.addAuctionEventListener(new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers)));
             auction.join();
         });
-    }
-
-    public static class XMPPAuction implements Auction {
-        private final Announcer<AuctionEventListener> auctionEventListeners = Announcer.to(AuctionEventListener.class);
-        private final Chat chat;
-
-        public XMPPAuction(XMPPConnection connection, String itemId) {
-            this.chat = connection.getChatManager().createChat(auctionId(itemId, connection),
-                    new AuctionMessageTranslator(connection.getUser(), auctionEventListeners.announce()));
-        }
-
-        private static String auctionId(String itemId, XMPPConnection connection) {
-            return String.format(AUCTION_ID_FORMAT, itemId, connection.getServiceName());
-        }
-
-        @Override
-        public void bid(int amount) {
-            sendMessage(String.format(BID_COMMAND_FORMAT, amount));
-        }
-
-        @Override
-        public void join() {
-            sendMessage(JOIN_COMMAND_FORMAT);
-        }
-
-        private void sendMessage(String message) {
-            try {
-                chat.sendMessage(message);
-            } catch (XMPPException e) {
-                e.printStackTrace();
-            }
-        }
-
-        @Override
-        public void addAuctionEventListener(AuctionEventListener listener) {
-            this.auctionEventListeners.addListener(listener);
-        }
     }
 
     private void disconnectWhenUICloses(final XMPPConnection connection) {
