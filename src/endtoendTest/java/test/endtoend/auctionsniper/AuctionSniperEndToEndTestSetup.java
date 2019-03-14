@@ -11,6 +11,7 @@ public class AuctionSniperEndToEndTestSetup {
     @After
     public void stopAuction() {
         auction.stop();
+        auction2.stop();
     }
 
     @After
