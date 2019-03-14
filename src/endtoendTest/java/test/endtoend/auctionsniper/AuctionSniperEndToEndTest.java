@@ -3,6 +3,9 @@ package test.endtoend.auctionsniper;
 import org.jivesoftware.smack.XMPPException;
 import org.junit.Test;
 
+import test.integration.auctionsniper.FakeAuctionServer;
+import test.integration.auctionsniper.ApplicationRunner;
+
 public class AuctionSniperEndToEndTest extends AuctionSniperEndToEndTestSetup {
 
     @Test

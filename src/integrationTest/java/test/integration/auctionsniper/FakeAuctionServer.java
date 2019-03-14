@@ -1,4 +1,4 @@
-package test.endtoend.auctionsniper;
+package test.integration.auctionsniper;
 
 import auctionsniper.Main;
 import org.hamcrest.Matcher;

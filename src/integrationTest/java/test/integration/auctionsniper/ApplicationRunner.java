@@ -1,22 +1,21 @@
-package test.endtoend.auctionsniper;
+package test.integration.auctionsniper;
 
 import auctionsniper.Main;
 import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
-import test.integration.auctionsniper.AuctionSniperDriver;
 
 import static auctionsniper.ui.SnipersTableModel.textFor;
-import static test.endtoend.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
+import static test.integration.auctionsniper.FakeAuctionServer.XMPP_HOSTNAME;
 
-class ApplicationRunner {
+public class ApplicationRunner {
 
     public static final String SNIPER_ID = "sniper";
     public static final String SNIPER_PASSWORD = "sniper";
-    public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + FakeAuctionServer.XMPP_LOCAL_HOSTNAME + "/" + Main.AUCTION_RESOURCE;
+    public static final String SNIPER_XMPP_ID = SNIPER_ID + "@" + FakeAuctionServer.XMPP_HOSTNAME + "/" + Main.AUCTION_RESOURCE;
 
     private AuctionSniperDriver driver;
 
-    void startBiddingIn(final FakeAuctionServer... auctions) {
+    public void startBiddingIn(final FakeAuctionServer... auctions) {
         startSniper();
         for (FakeAuctionServer auction : auctions) {
             final String itemId = auction.getItemId();
@@ -52,13 +51,13 @@ class ApplicationRunner {
         return arguments;
     }
 
-    void stop() {
+    public void stop() {
         if (driver != null) {
             driver.dispose();
         }
     }
 
-    void showsSniperHasLostAuction() {
+    public void showsSniperHasLostAuction() {
         driver.showsSniperStatus(textFor(SniperState.LOST));
     }
 

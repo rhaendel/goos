@@ -1,4 +1,4 @@
-package test.endtoend.auctionsniper;
+package test.integration.auctionsniper;
 
 import static java.util.concurrent.TimeUnit.SECONDS;
 import static org.hamcrest.Matchers.hasProperty;

@@ -15,8 +15,6 @@ import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
 import auctionsniper.Main;
 import auctionsniper.Main.XMPPAuction;
-import test.endtoend.auctionsniper.ApplicationRunner;
-import test.endtoend.auctionsniper.FakeAuctionServer;
 
 public class XMPPAuctionTest {
 
