@@ -13,8 +13,8 @@ import org.junit.Test;
 
 import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener;
-import auctionsniper.Main;
 import auctionsniper.xmpp.XMPPAuction;
+import auctionsniper.xmpp.XMPPAuctionHouse;
 import test.integration.auctionsniper.ApplicationRunner;
 import test.integration.auctionsniper.FakeAuctionServer;
 
@@ -27,7 +27,7 @@ public class XMPPAuctionTest {
     public void connect() throws XMPPException {
         connection = new XMPPConnection(FakeAuctionServer.XMPP_HOSTNAME);
         connection.connect();
-        connection.login(ApplicationRunner.SNIPER_ID, ApplicationRunner.SNIPER_PASSWORD, Main.AUCTION_RESOURCE);
+        connection.login(ApplicationRunner.SNIPER_ID, ApplicationRunner.SNIPER_PASSWORD, XMPPAuctionHouse.AUCTION_RESOURCE);
     }
 
     @After
