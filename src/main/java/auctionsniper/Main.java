@@ -2,15 +2,12 @@ package auctionsniper;
 
 import auctionsniper.ui.MainWindow;
 import auctionsniper.ui.SnipersTableModel;
-import auctionsniper.ui.SwingThreadSniperListener;
 import auctionsniper.xmpp.XMPPAuctionHouse;
 
 import javax.swing.SwingUtilities;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.lang.reflect.InvocationTargetException;
-import java.util.Collection;
-import java.util.LinkedList;
 
 public class Main {
 
@@ -20,8 +17,6 @@ public class Main {
 
     private final SnipersTableModel snipers = new SnipersTableModel();
     private MainWindow ui;
-
-    private final Collection<Auction> notToBeGCd = new LinkedList<>();
 
     public Main() throws InvocationTargetException, InterruptedException {
         SwingUtilities.invokeAndWait(() -> ui = new MainWindow(snipers));
@@ -35,13 +30,7 @@ public class Main {
     }
 
     private void addUserRequestListenerFor(final AuctionHouse auctionHouse) {
-        ui.addUserRequestListener(itemId -> {
-            snipers.addSniper(SniperSnapshot.joining(itemId));
-            Auction auction = auctionHouse.auctionFor(itemId);
-            notToBeGCd.add(auction);
-            auction.addAuctionEventListener(new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers)));
-            auction.join();
-        });
+        ui.addUserRequestListener(new SniperLauncher(auctionHouse, snipers));
     }
 
     private void disconnectWhenUICloses(final XMPPAuctionHouse auctionHouse) {
