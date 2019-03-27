@@ -1,29 +1,23 @@
 package auctionsniper;
 
-import auctionsniper.ui.SnipersTableModel;
-import auctionsniper.ui.SwingThreadSniperListener;
-
-import java.util.Collection;
-import java.util.LinkedList;
-
 public class SniperLauncher implements UserRequestListener {
 
-    private final Collection<Auction> notToBeGCd = new LinkedList<>();
     private final AuctionHouse auctionHouse;
-    private final SnipersTableModel snipers;
+    private final SniperCollector collector;
 
-    SniperLauncher(AuctionHouse auctionHouse, SnipersTableModel snipers) {
+    public SniperLauncher(AuctionHouse auctionHouse, SniperCollector collector) {
         this.auctionHouse = auctionHouse;
-        this.snipers = snipers;
+        this.collector = collector;
     }
 
     @Override
     public void joinAuction(String itemId) {
-        snipers.addSniper(SniperSnapshot.joining(itemId));
         Auction auction = auctionHouse.auctionFor(itemId);
-        notToBeGCd.add(auction);
-        AuctionSniper sniper = new AuctionSniper(itemId, auction, new SwingThreadSniperListener(snipers));
+        AuctionSniper sniper = new AuctionSniper(itemId, auction);
         auction.addAuctionEventListener(sniper);
+        collector.addSniper(sniper);
+
+        SniperSnapshot.joining(itemId);
         auction.join();
     }
 }
