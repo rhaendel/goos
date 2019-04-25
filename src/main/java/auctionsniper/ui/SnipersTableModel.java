@@ -1,8 +1,8 @@
 package auctionsniper.ui;
 
 import auctionsniper.AuctionSniper;
-import auctionsniper.SniperCollector;
 import auctionsniper.SniperListener;
+import auctionsniper.SniperPortfolio.PortfolioListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
 import auctionsniper.exception.Defect;
@@ -10,13 +10,12 @@ import auctionsniper.exception.Defect;
 import javax.swing.table.AbstractTableModel;
 import java.util.ArrayList;
 
-public class SnipersTableModel extends AbstractTableModel implements SniperListener, SniperCollector {
+public class SnipersTableModel extends AbstractTableModel implements SniperListener, PortfolioListener {
 
     private static final long serialVersionUID = 1L;
 
     private static final String[] STATUS_TEXT = { "Joining", "Bidding", "Winning", "Lost", "Won" };
 
-    private final ArrayList<AuctionSniper> notToBeGCd = new ArrayList<>();
     private final ArrayList<SniperSnapshot> snapshots = new ArrayList<>();
 
     @Override
@@ -57,6 +56,13 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
     public static String textFor(SniperState state) {
         return STATUS_TEXT[state.ordinal()];
+    }
+
+    @Override
+    public void sniperAdded(AuctionSniper sniper) {
+        snapshots.add(sniper.getSnapshot());
+        fireTableRowsInserted(snapshots.size() - 1, snapshots.size() - 1);
+        sniper.addSniperListener(new SwingThreadSniperListener(this));
     }
 
     public enum Column {
@@ -100,18 +106,6 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
         }
 
         abstract public Object valueIn(SniperSnapshot snapshot);
-    }
-
-    @Override
-    public void addSniper(AuctionSniper sniper) {
-        notToBeGCd.add(sniper);
-        addSniperSnapshot(sniper.getSnapshot());
-        sniper.addSniperListener(new SwingThreadSniperListener(this));
-    }
-
-    private void addSniperSnapshot(SniperSnapshot snapshot) {
-        snapshots.add(snapshot);
-        fireTableRowsInserted(snapshots.size() - 1, snapshots.size() - 1);
     }
 
 }

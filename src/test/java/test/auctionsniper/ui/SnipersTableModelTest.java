@@ -50,7 +50,7 @@ public class SnipersTableModelTest {
             oneOf(listener).tableChanged(with(aChangeInRow(0)));
         }});
 
-        model.addSniper(sniper);
+        model.sniperAdded(sniper);
         model.sniperStateChanged(bidding);
 
         assertRowMatchesSnapshot(0, bidding);
@@ -70,7 +70,7 @@ public class SnipersTableModelTest {
         }});
 
         assertEquals(0, model.getRowCount());
-        model.addSniper(sniper);
+        model.sniperAdded(sniper);
 
         assertEquals(1, model.getRowCount());
         assertRowMatchesSnapshot(0, SniperSnapshot.joining(ITEM_ID));
@@ -83,8 +83,8 @@ public class SnipersTableModelTest {
             ignoring(listener);
         }});
 
-        model.addSniper(sniper);
-        model.addSniper(sniper2);
+        model.sniperAdded(sniper);
+        model.sniperAdded(sniper2);
 
         assertEquals(ITEM_ID, cellValue(0, Column.ITEM_IDENTIFIER));
         assertEquals("item 2", cellValue(1, Column.ITEM_IDENTIFIER));
@@ -100,9 +100,9 @@ public class SnipersTableModelTest {
         }});
 
 
-        model.addSniper(sniper);
-        model.addSniper(sniper1);
-        model.addSniper(sniper2);
+        model.sniperAdded(sniper);
+        model.sniperAdded(sniper1);
+        model.sniperAdded(sniper2);
 
         assertStateInRow(SniperState.JOINING, 0);
         assertStateInRow(SniperState.JOINING, 1);
