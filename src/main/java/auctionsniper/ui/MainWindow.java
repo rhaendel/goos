@@ -1,5 +1,6 @@
 package auctionsniper.ui;
 
+import auctionsniper.Item;
 import auctionsniper.SniperPortfolio;
 import auctionsniper.UserRequestListener;
 import auctionsniper.util.Announcer;
@@ -49,10 +50,18 @@ public class MainWindow extends JFrame {
 
         JButton joinAuctionButton = new JButton("Join Auction");
         joinAuctionButton.setName(JOIN_BUTTON_NAME);
-        joinAuctionButton.addActionListener(e -> userRequests.announce().joinAuction(itemIdField.getText()));
+        joinAuctionButton.addActionListener(e -> userRequests.announce().joinAuction(new Item(itemId(itemIdField), stopPrice(stopPriceField))));
         controls.add(joinAuctionButton);
 
         return controls;
+    }
+
+    private int stopPrice(JFormattedTextField stopPriceField) {
+        return ((Number)stopPriceField.getValue()).intValue();
+    }
+
+    private String itemId(JTextField itemIdField) {
+        return itemIdField.getText();
     }
 
     private JTextField itemIdField() {

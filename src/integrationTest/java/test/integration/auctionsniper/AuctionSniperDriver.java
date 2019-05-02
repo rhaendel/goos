@@ -1,5 +1,6 @@
 package test.integration.auctionsniper;
 
+import auctionsniper.Item;
 import auctionsniper.ui.MainWindow;
 import com.objogate.wl.swing.AWTEventQueueProber;
 import com.objogate.wl.swing.driver.JButtonDriver;
@@ -31,9 +32,9 @@ public class AuctionSniperDriver extends JFrameDriver {
                         new AWTEventQueueProber(timeoutMillis, 100));
     }
 
-    public void startBiddingFor(String itemId, int stopPrice) {
-        textField(NEW_ITEM_ID_NAME).replaceAllText(itemId);
-        textField(NEW_ITEM_STOP_PRICE_NAME).replaceAllText(String.valueOf(stopPrice));
+    public void startBiddingFor(Item item) {
+        textField(NEW_ITEM_ID_NAME).replaceAllText(item.identifier);
+        textField(NEW_ITEM_STOP_PRICE_NAME).replaceAllText(String.valueOf(item.stopPrice));
         bidButton().click();
     }
 

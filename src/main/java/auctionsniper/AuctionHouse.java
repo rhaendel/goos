@@ -2,6 +2,6 @@ package auctionsniper;
 
 public interface AuctionHouse {
 
-    Auction auctionFor(String itemId);
+    Auction auctionFor(Item item);
 
 }

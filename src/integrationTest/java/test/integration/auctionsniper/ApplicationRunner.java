@@ -1,5 +1,6 @@
 package test.integration.auctionsniper;
 
+import auctionsniper.Item;
 import auctionsniper.Main;
 import auctionsniper.SniperState;
 import auctionsniper.ui.MainWindow;
@@ -20,7 +21,7 @@ public class ApplicationRunner {
         startSniper();
         for (FakeAuctionServer auction : auctions) {
             final String itemId = auction.getItemId();
-            driver.startBiddingFor(itemId, Integer.MAX_VALUE);
+            driver.startBiddingFor(new Item(itemId, Integer.MAX_VALUE));
             driver.showsSniperStatus(itemId, 0, 0, textFor(SniperState.JOINING));
         }
     }
@@ -28,7 +29,7 @@ public class ApplicationRunner {
     public void startBiddingWithStopPrice(FakeAuctionServer auction, int stopPrice) {
         startSniper();
         final String itemId = auction.getItemId();
-        driver.startBiddingFor(itemId, stopPrice);
+        driver.startBiddingFor(new Item(itemId, stopPrice));
         driver.showsSniperStatus(itemId, 0, 0, textFor(SniperState.JOINING));
     }
 

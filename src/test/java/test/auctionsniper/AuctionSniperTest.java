@@ -3,6 +3,7 @@ package test.auctionsniper;
 import auctionsniper.Auction;
 import auctionsniper.AuctionEventListener.PriceSource;
 import auctionsniper.AuctionSniper;
+import auctionsniper.Item;
 import auctionsniper.SniperListener;
 import auctionsniper.SniperSnapshot;
 import auctionsniper.SniperState;
@@ -29,7 +30,7 @@ public class AuctionSniperTest {
     private static final String ITEM_ID = "item-54321";
     private final SniperListener sniperListener = context.mock(SniperListener.class);
     private final Auction auction = context.mock(Auction.class);
-    private final AuctionSniper sniper = new AuctionSniper(ITEM_ID, auction);
+    private final AuctionSniper sniper = new AuctionSniper(new Item(ITEM_ID, Integer.MAX_VALUE), auction);
     private final States sniperState = context.states("sniper");
 
     @Before
