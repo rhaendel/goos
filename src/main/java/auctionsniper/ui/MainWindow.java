@@ -23,6 +23,7 @@ public class MainWindow extends JFrame {
     private static final String SNIPERS_TABLE_NAME = "Snipers";
 
     public static final String NEW_ITEM_ID_NAME = "New Item ID";
+    public static final String NEW_ITEM_STOP_PRICE_NAME = "Stop Price";
     public static final String JOIN_BUTTON_NAME = "Join Auction";
 
     private final Announcer<UserRequestListener> userRequests = Announcer.to(UserRequestListener.class);

@@ -14,7 +14,7 @@ public class SnipersTableModel extends AbstractTableModel implements SniperListe
 
     private static final long serialVersionUID = 1L;
 
-    private static final String[] STATUS_TEXT = { "Joining", "Bidding", "Winning", "Lost", "Won" };
+    private static final String[] STATUS_TEXT = { "Joining", "Bidding", "Winning", "Losing", "Lost", "Won" };
 
     private final ArrayList<SniperSnapshot> snapshots = new ArrayList<>();
 
