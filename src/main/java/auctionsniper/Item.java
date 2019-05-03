@@ -30,4 +30,8 @@ public class Item {
     public String toString() {
         return identifier + ": " + stopPrice;
     }
+
+    public boolean allowsBid(int bid) {
+        return bid <= stopPrice;
+    }
 }
