@@ -89,4 +89,12 @@ public class ApplicationRunner {
     public void showsSniperHasLostAuction(FakeAuctionServer auction, int lastPrice, int lastBid) {
         driver.showsSniperStatus(auction.getItemId(), lastPrice, lastBid, textFor(SniperState.LOST));
     }
+
+    public void showsSniperHasFailed(FakeAuctionServer auction) {
+        driver.showsSniperStatus(auction.getItemId(), 0, 0, textFor(SniperState.FAILED));
+    }
+
+    public void reportsInvalidMessage(FakeAuctionServer auction, String brokenMessage) {
+
+    }
 }
