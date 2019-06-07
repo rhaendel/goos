@@ -37,6 +37,7 @@ dependencies {
 
     integrationTestCompile name: 'windowlicker-core-DEV'
     integrationTestCompile name: 'windowlicker-swing-DEV'
+    integrationTestCompile 'commons-io:commons-io:2.6'
     endtoendTestCompile sourceSets.integrationTest.output
     endtoendFailingTestCompile sourceSets.endtoendTest.output
 }
